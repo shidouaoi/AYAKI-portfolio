@@ -1,4 +1,6 @@
 import BLOG from '@/blog.config'
+import { paginateGalleryPosts } from '@/lib/gallery/pagination'
+import { isGalleryPage, addGalleryImages } from '@/lib/db/notion/galleryPosts'
 import { siteConfig } from '@/lib/config'
 import { fetchGlobalAllData } from '@/lib/db/SiteDataApi'
 import { DynamicLayout } from '@/themes/theme'
@@ -23,6 +25,7 @@ export async function getStaticProps({ params: { tag }, locale }) {
     .filter(post => post && post?.tags && post?.tags.includes(tag))
 
   // 处理文章页数
+  props.galleryMode = isGalleryPage(props, { tag })
   props.postCount = props.posts.length
 
   // 处理分页
@@ -31,7 +34,9 @@ export async function getStaticProps({ params: { tag }, locale }) {
     'page',
     props?.NOTION_CONFIG
   )
-  if (POST_LIST_STYLE === 'scroll') {
+  if (props.galleryMode) {
+    props.posts = paginateGalleryPosts(props.posts)
+  } else if (POST_LIST_STYLE === 'scroll') {
     // 滚动列表 给前端返回所有数据
   } else if (POST_LIST_STYLE === 'page') {
     props.posts = props.posts?.slice(
@@ -41,6 +46,7 @@ export async function getStaticProps({ params: { tag }, locale }) {
   }
 
   props.tag = tag
+  if (props.galleryMode) addGalleryImages(props)
   delete props.allPages
   return {
     props,

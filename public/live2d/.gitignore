@@ -1,0 +1,48 @@
+# =========================
+# Cubism Core
+# =========================
+
+/Core/*
+!/Core/live2dcubismcore.js
+
+
+# =========================
+# Framework
+# =========================
+
+/Framework/*
+
+!/Framework/Shaders/
+/Framework/Shaders/*
+
+!/Framework/Shaders/WebGL/
+!/Framework/Shaders/WebGL/**
+
+
+# =========================
+# Resources
+# =========================
+
+/Resources/*
+
+!/Resources/aru/
+!/Resources/aru/**
+
+
+# =========================
+# Build / Debug
+# =========================
+
+/assets/*.map
+
+
+# =========================
+# Temporary files
+# =========================
+
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+*.swp
+*~

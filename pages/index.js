@@ -1,5 +1,6 @@
 import { getPublicPostBlockMap } from '@/lib/utils/publicPost'
 import BLOG from '@/blog.config'
+import { selectChatPosts } from '@/themes/haru/lib/home'
 import { siteConfig } from '@/lib/config'
 import {
   cleanPostSummaries,
@@ -68,6 +69,18 @@ export async function getStaticProps(req) {
   props.posts = props.allPages?.filter(
     page => page.type === 'Post' && page.status === 'Published'
   )
+
+  if (siteConfig('THEME', BLOG.THEME, props.NOTION_CONFIG) === 'haru') {
+    props.haruHomePosts = cleanPostSummaries(props.posts)
+    props.haruChatPosts = selectChatPosts(props.haruHomePosts)
+    const latestChat = selectChatPosts(props.posts)[0]
+    props.haruChatPost = latestChat ? { ...cleanPostSummaries([latestChat])[0] } : null
+    if (latestChat && !latestChat.password) {
+      const raw = await getPostBlocks(latestChat.id, 'haru-home-chat')
+      props.haruChatPost.blockMap = getPublicPostBlockMap(latestChat, adapterNotionBlockMap(raw), props.allPages)
+      if (props.haruChatPost.blockMap?.block) props.haruChatPost.blockMap.block = formatNotionBlock(props.haruChatPost.blockMap.block)
+    }
+  }
 
   // 处理分页
   const POST_LIST_STYLE = siteConfig(

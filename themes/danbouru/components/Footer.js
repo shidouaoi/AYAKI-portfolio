@@ -1,0 +1,61 @@
+import { BeiAnGongAn } from '@/components/BeiAnGongAn'
+import { siteConfig } from '@/lib/config'
+
+const Footer = ({ siteInfo }) => {
+  const d = new Date()
+  const currentYear = d.getFullYear()
+  const since = siteConfig('SINCE')
+  const copyrightDate =
+    parseInt(since) < currentYear ? since + '-' + currentYear : currentYear
+
+  return (
+    <footer className='z-20 pt-2 pb-5 bg:white dark:bg-hexo-black-gray justify-center text-center w-full text-xs relative'>
+      {/* <hr className='pb-2' /> */}
+
+      <div className='flex justify-center'>
+        <div>
+          <i className='text-xs mx-1 animate-pulse fa-solid fa-paw' />
+          <a
+            href={siteConfig('LINK')}
+            className='text-gray-500 dark:text-gray-300 '>
+            {siteConfig('AUTHOR')}
+          </a>
+          &nbsp;&nbsp;<br />
+        </div>
+        © {`${copyrightDate}`}
+      </div>
+
+      <div className='text-xs py-1'>
+        Powered By{' '}
+        <a
+          href='https://github.com/notionnext-org/NotionNext'
+          className='text-gray-500 dark:text-gray-300'>
+          NotionNext {siteConfig('VERSION')}
+        </a>
+      </div>
+
+      {siteConfig('BEI_AN') && (
+        <>
+          <i className='fas fa-shield-alt' />{' '}
+          <a href={siteConfig('BEI_AN_LINK')} className='mr-2'>
+            {siteConfig('BEI_AN')}
+          </a>
+          <br />
+        </>
+      )}
+      <BeiAnGongAn />
+
+      <span className='hidden busuanzi_container_site_pv'>
+        <i className='text-xs fa-solid fa-dolly' />
+        <span className='px-1 busuanzi_value_site_pv'> </span>{' '}
+      </span>
+      <span className='pl-2 hidden busuanzi_container_site_uv'>
+        <i className='text-xs fa-solid fa-cat' />{' '}
+        <span className='px-1 busuanzi_value_site_uv'> </span>{' '}
+      </span>
+      {/* <h1 className='pt-1'>{siteConfig('TITLE')}</h1> */}
+    </footer>
+  )
+}
+
+export default Footer
