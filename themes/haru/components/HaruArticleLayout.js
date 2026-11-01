@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { useState } from 'react'
 import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
 import SOCIAL_LINKS from '../socialLinks'
@@ -7,19 +8,48 @@ import { HomeStyle } from '../homeStyle'
 import { ArticleStyle } from '../articleStyle'
 import { HomeFooter } from './HaruHome'
 
+function MenuEntry({ item }) {
+  const [open, setOpen] = useState(false)
+  const hasChildren = item.subMenus?.some(child => child.show !== false)
+  const label = (
+    <>
+      {item.icon && <i className={item.icon} aria-hidden='true' />}
+      <span>{item.title}</span>
+    </>
+  )
+  return (
+    <li>
+      {hasChildren ? (
+        <button
+          type='button'
+          className='haru-menu-toggle'
+          aria-expanded={open}
+          onClick={() => setOpen(!open)}
+        >
+          {label}
+          <i
+            className={
+              open ? 'fa-solid fa-angle-down' : 'fa-solid fa-angle-right'
+            }
+            aria-hidden='true'
+          />
+        </button>
+      ) : (
+        <SmartLink href={item.href || '#'} title={item.title}>
+          {label}
+        </SmartLink>
+      )}
+      {hasChildren && open && <MenuLinks items={item.subMenus} />}
+    </li>
+  )
+}
 function MenuLinks({ items = [] }) {
   return (
     <ul className='haru-article-menu'>
       {items
         .filter(item => item.show !== false)
         .map((item, index) => (
-          <li key={item.id || index}>
-            <SmartLink href={item.href || '#'} title={item.title}>
-              {item.icon && <i className={item.icon} aria-hidden='true' />}
-              <span>{item.title}</span>
-            </SmartLink>
-            {item.subMenus?.length > 0 && <MenuLinks items={item.subMenus} />}
-          </li>
+          <MenuEntry key={item.id || index} item={item} />
         ))}
     </ul>
   )
@@ -83,9 +113,9 @@ export default function HaruArticleLayout(props) {
               ))}
             </nav>
           </div>
-          <SidebarSection title='自定义菜单' icon='fa-solid fa-book'>
+          <nav className='haru-article-sidebar-section' aria-label='自定义菜单'>
             <MenuLinks items={customMenu || []} />
-          </SidebarSection>
+          </nav>
           <SidebarSection title='最新发布' icon='fa-solid fa-clock'>
             <ul className='haru-article-recent'>
               {recent.map(item => (

@@ -6,6 +6,46 @@ export function ArticleStyle() {
         --haru-hover-gray: #e3d7d2;
         padding: 90px 0 0;
       }
+      #theme-haru.haru-article-shell .haru-page-title {
+        padding-top: 0;
+      }
+      #theme-haru.haru-article-shell .haru-article-main > .mt-12,
+      #theme-haru.haru-article-shell .haru-article-main > .py-10 {
+        margin-top: 0;
+        padding-top: 0;
+      }
+      #theme-haru.haru-article-shell #posts-wrapper.card-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+      #theme-haru.haru-article-shell
+        :is(.haru-archive-card, .haru-gallery-card, #posts-wrapper .card) {
+        --gallery-surface: #fff;
+        background: #fff;
+        border-color: #e3d7d2;
+        color: #393534;
+      }
+      #theme-haru.haru-article-shell .haru-gallery-grid {
+        column-count: 2;
+        max-width: 100%;
+      }
+      #theme-haru.haru-article-shell .haru-gallery-layout {
+        width: 100%;
+        max-width: 100%;
+      }
+      #theme-haru.haru-article-shell
+        :is(.haru-archive-month, .haru-taxonomy-item) {
+        color: #393534;
+      }
+      @media (max-width: 480px) {
+        #theme-haru.haru-article-shell #posts-wrapper.card-list {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        #theme-haru.haru-article-shell .haru-gallery-grid {
+          column-count: 1;
+        }
+      }
       .haru-article-layout {
         display: grid;
         grid-template-columns: minmax(0, 570px) minmax(0, 220px);
@@ -68,6 +108,42 @@ export function ArticleStyle() {
         width: 90px;
         height: 90px;
         margin: 0 0 15px;
+      }
+      #theme-haru.haru-article-shell .haru-home-avatar {
+        align-items: center;
+        justify-content: center;
+      }
+      #theme-haru.haru-article-shell .haru-home-avatar img {
+        margin: 0;
+        object-fit: contain;
+      }
+      #theme-haru.haru-article-shell
+        :is(
+          .notion-collection-card,
+          .notion-page-link[class*='notion-block-'],
+          .notion-bookmark
+        ) {
+        background: #fff !important;
+      }
+      .haru-menu-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        line-height: 1.8;
+        text-align: left;
+        cursor: pointer;
+      }
+      .haru-menu-toggle span {
+        flex: 1;
+      }
+      .haru-menu-toggle:hover {
+        color: var(--haru-accent);
       }
       .haru-article-name {
         display: block;

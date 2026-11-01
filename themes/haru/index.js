@@ -11,7 +11,6 @@ import NotionIcon from '@/components/NotionIcon'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import { isBrowser } from '@/lib/utils'
-import { Transition } from '@headlessui/react'
 import dynamic from 'next/dynamic'
 import SmartLink from '@/components/SmartLink'
 import { useRouter } from 'next/router'
@@ -54,29 +53,10 @@ const BlogPostListAll = dynamic(() => import('./components/BlogPostListAll'), {
 const CategoryItem = dynamic(() => import('./components/CategoryItem'), {
   ssr: true
 })
-const FloatButtonCatalog = dynamic(
-  () => import('./components/FloatButtonCatalog'),
-  { ssr: true }
-)
-const Footer = dynamic(() => import('./components/Footer'), { ssr: false })
-const JumpToTopButton = dynamic(() => import('./components/JumpToTopButton'), {
-  ssr: false
-})
-const LogoBar = dynamic(() => import('./components/LogoBar'), { ssr: true })
-const MenuItem = dynamic(
-  () => import('./components/MenuItem').then(mod => mod.MenuItem),
-  {
-    ssr: true
-  }
-)
-const PageNavDrawer = dynamic(() => import('./components/PageNavDrawer'), {
-  ssr: true
-})
 const TagItemMini = dynamic(() => import('./components/TagItemMini'), {
   ssr: true
 })
 const TocDrawer = dynamic(() => import('./components/TocDrawer'), { ssr: true })
-const TopNavBar = dynamic(() => import('./components/TopNavBar'), { ssr: true })
 
 // 主题全局变量
 const ThemeGlobalNav = createContext()
@@ -89,70 +69,20 @@ export const useNavGlobal = () => useContext(ThemeGlobalNav)
  * @constructor
  */
 const LayoutBase = props => {
-  const {
-    customMenu,
-    children,
-    post,
-    allNavPages,
-    categoryOptions,
-    slotLeft,
-    slotTop
-  } = props
-  const { onLoading } = useGlobal()
+  const { children, post, allNavPages, categoryOptions } = props
+  const router = useRouter()
   const [tocVisible, changeTocVisible] = useState(false)
   const [pageNavVisible, changePageNavVisible] = useState(false)
   const [filteredNavPages, setFilteredNavPages] = useState(allNavPages)
-
-  const router = useRouter()
-  const isHome = router.pathname === '/'
-  const showTocButton = post?.toc?.length > 1
-
   useEffect(() => {
     setFilteredNavPages(allNavPages)
-  }, [post])
-
-  let links = customMenu
-
-  // 默认使用自定义菜单，否则将遍历所有的category生成菜单
-  if (!siteConfig('NAV_USE_CUSTOM_MENU', null, CONFIG)) {
-    links =
-      categoryOptions &&
-      categoryOptions?.map(c => {
-        return {
-          id: c.name,
-          title: `# ${c.name}`,
-          href: `/category/${c.name}`,
-          show: true
-        }
-      })
-  }
-
-  if (isHome)
+  }, [post, allNavPages])
+  if (router.pathname === '/')
     return (
       <div id='theme-haru' className='haru-home-shell'>
         {children}
       </div>
     )
-
-  if (post || router.pathname.startsWith('/[prefix]'))
-    return (
-      <ThemeGlobalNav.Provider
-        value={{
-          tocVisible,
-          changeTocVisible,
-          filteredNavPages,
-          setFilteredNavPages,
-          allNavPages,
-          pageNavVisible,
-          changePageNavVisible,
-          categoryOptions
-        }}
-      >
-        <Style />
-        <HaruArticleLayout {...props}>{children}</HaruArticleLayout>
-      </ThemeGlobalNav.Provider>
-    )
-
   return (
     <ThemeGlobalNav.Provider
       value={{
@@ -166,116 +96,12 @@ const LayoutBase = props => {
         categoryOptions
       }}
     >
-      {/* 样式 */}
       <Style />
-
-      {/* 主题样式根基 */}
-      <div
-        id='theme-haru'
-        className={`${siteConfig('FONT_STYLE')} dark:bg-hexo-black-gray w-full h-screen min-h-screen justify-center dark:text-gray-300 scroll-smooth`}
-      >
-        {/* 端顶部导航栏 */}
-        <TopNavBar {...props} />
-
-        {/* 左右布局区块 */}
-        <main
-          id='wrapper'
-          className={
-            (JSON.parse(siteConfig('LAYOUT_SIDEBAR_REVERSE'))
-              ? 'flex-row-reverse'
-              : '') + ' relative flex justify-between w-full h-screen mx-auto'
-          }
-        >
-          {/* 左侧推拉抽屉 */}
-          <div
-            className={
-              ' hidden md:block dark:border-transparent relative z-10 mx-4 w-52 max-h-full pb-44'
-            }
-          >
-            {/* 图标Logo */}
-            <div className='hidden md:block w-full top-0 left-5 md:left-4 z-40 pt-3 md:pt-4'>
-              <LogoBar {...props} />
-            </div>
-            <div className='main-menu z-20 pl-9 pr-7 pb-5 sticky pt-1 top-20 overflow-y-scroll h-fit max-h-full scroll-hidden bg-white dark:bg-neutral-800 rounded-xl '>
-              {/* 嵌入 */}
-              {slotLeft}
-
-              <div className='grid pt-2'>
-                {/* 显示菜单 */}
-                {links &&
-                  links?.map((link, index) => (
-                    <MenuItem key={index} link={link} />
-                  ))}
-              </div>
-            </div>
-
-            {/* 页脚站点信息 */}
-            <div className='w-56 fixed left-0 bottom-0 z-0'>
-              <Footer {...props} />
-            </div>
-          </div>
-
-          {/* 右侧主要内容区块 */}
-          <div
-            id='center-wrapper'
-            className='flex flex-col justify-between w-full relative z-10 pt-20 md:pt-5 pb-8 min-h-screen overflow-y-auto'
-          >
-            <div
-              id='container-inner'
-              className={`w-full px-6 pb-6 md:pb-20 max-w-8xl justify-center ${props.galleryMode ? 'mx-0' : 'mx-auto'}`}
-            >
-              {slotTop}
-              {/* 广告植入 */}
-              <WWAds className='w-full' orientation='horizontal' />
-
-              <Transition
-                show={!onLoading}
-                appear={true}
-                enter='transition ease-in-out duration-700 transform order-first'
-                enterFrom='opacity-0 translate-y-16'
-                enterTo='opacity-100'
-                leave='transition ease-in-out duration-300 transform'
-                leaveFrom='opacity-100 translate-y-0'
-                leaveTo='opacity-0 -translate-y-16'
-                unmount={false}
-              >
-                {children}
-              </Transition>
-
-              {/* Google广告 */}
-              <AdSlot type='in-article' />
-              <WWAds className='w-full' orientation='horizontal' />
-
-              {/* 回顶按钮 */}
-              <JumpToTopButton />
-            </div>
-
-            {/* 底部 */}
-            <div className='md:hidden'>
-              <Footer {...props} />
-            </div>
-          </div>
-        </main>
-
-        {/* 移动端悬浮目录按钮 */}
-        {showTocButton && !tocVisible && (
-          <div className='md:hidden fixed right-0 bottom-52 z-30 bg-white border-l border-t border-b dark:border-neutral-800 rounded'>
-            <FloatButtonCatalog {...props} />
-          </div>
-        )}
-
-        {/* 移动端导航抽屉 */}
-        <PageNavDrawer {...props} filteredNavPages={filteredNavPages} />
-      </div>
+      <HaruArticleLayout {...props}>{children}</HaruArticleLayout>
     </ThemeGlobalNav.Provider>
   )
 }
 
-/**
- * 首页
- * @param {*} props
- * @returns 此主题首页就是列表
- */
 const LayoutIndex = props => {
   return <HaruHome {...props} />
 }
@@ -424,23 +250,7 @@ const LayoutSlug = props => {
       {!lock && (
         <div id='container'>
           {/* title */}
-          <h1 className='haru-page-title dark:text-gray-300'>
-            {/* 不使用懒加载了，会妨碍图片反向代理 */}
-            {siteConfig('POST_TITLE_ICON') &&
-              post?.pageIcon &&
-              (post.pageIcon.startsWith('http') ? (
-                <img
-                  // 避免notion icon的问题
-                  // src={getTitleIconUrl(post.pageIcon)}
-                  src={normalizeNotionIconUrl(post.pageIcon)}
-                  alt=''
-                  className='w-8 h-8'
-                />
-              ) : (
-                <span className='mr-1'>{post.pageIcon}</span>
-              ))}
-            {post?.title}
-          </h1>
+          <h1 className='haru-page-title dark:text-gray-300'>{post?.title}</h1>
 
           {/* Notion文章主体 */}
           {post && (
