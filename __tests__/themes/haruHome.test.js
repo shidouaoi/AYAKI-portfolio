@@ -7,7 +7,7 @@ describe('Haru home content', () => {
   it('selects only the latest five chat posts across the full catalog', () => {
     const posts = Array.from({ length: 8 }, (_, i) => ({
       title: String(i),
-      category: i % 2 ? ['杂谈', '作品'] : '杂谈',
+      category: i % 2 ? ['ひとこと', '作品'] : 'ひとこと',
       publishDate: i + 1
     }))
     posts.push({ title: 'other', category: '作品', publishDate: 100 })
@@ -29,6 +29,6 @@ describe('Haru home content', () => {
         { title: 'new', date: { start_date: '2026-01-01' } }
       ])[0].title
     ).toBe('new')
-    expect(hasCategory({ category: '杂谈相关' }, '杂谈')).toBe(false)
+    expect(hasCategory({ category: 'ひとこと相关' }, 'ひとこと')).toBe(false)
   })
 })

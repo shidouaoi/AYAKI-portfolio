@@ -645,16 +645,7 @@ const Style = () => {
         margin-bottom: 1.25rem;
     }
 
-    #theme-haru .haru-page-title {
-        display: flex;
-        align-items: flex-start;
-        gap: 6px;
 
-        font-size: 1.875rem;
-        line-height: 2.25rem;
-        padding-top: 1rem;
-        margin-bottom: 1.25rem;
-    }
 
     #theme-haru .haru-page-title > i {
         flex: 0 0 auto;

@@ -9,9 +9,7 @@ import { hasCategory, newestPosts } from './lib/home'
  * 开启方式 在blog.config.js 将主题配置为 `haru`
  */
 
-import NotionIcon from '@/components/NotionIcon'
 import { siteConfig } from '@/lib/config'
-import { useGlobal } from '@/lib/global'
 import { isBrowser } from '@/lib/utils'
 import dynamic from 'next/dynamic'
 import SmartLink from '@/components/SmartLink'
@@ -22,13 +20,10 @@ import CONFIG from './config'
 import HaruHome from './components/HaruHome'
 import PurchaseCalloutStyle from './components/PurchaseCalloutStyle'
 import HaruArticleLayout from './components/HaruArticleLayout'
-import HomeTopics from './components/HomeTopics'
 import BlogGallery from './components/BlogGallery'
 import PaginationSimple from './components/PaginationSimple'
 import { GALLERY_PAGE_SIZE } from './lib/gallery'
 import { Style } from './style'
-// 统一解决notion官方图标URL被代理两次的问题
-import { normalizeNotionIconUrl } from './lib/normalizeNotionIconUrl'
 
 const WWAds = dynamic(() => import('@/components/WWAds'), { ssr: false })
 const AdSlot = dynamic(
@@ -41,16 +36,10 @@ const Comment = dynamic(() => import('@/components/Comment'), { ssr: false })
 const NotionPage = dynamic(() => import('@/components/NotionPage'), {
   ssr: true
 })
-const Announcement = dynamic(() => import('./components/Announcement'), {
-  ssr: true
-})
 const BlogArchiveItem = dynamic(() => import('./components/BlogArchiveItem'), {
   ssr: true
 })
 const BlogPostCard = dynamic(() => import('./components/BlogPostCard'), {
-  ssr: true
-})
-const BlogPostListAll = dynamic(() => import('./components/BlogPostListAll'), {
   ssr: true
 })
 const CategoryItem = dynamic(() => import('./components/CategoryItem'), {
@@ -110,47 +99,11 @@ const LayoutIndex = props => {
 }
 
 /**
- * 首页列表
- * @param {*} props
- * @returns
- */
-const LayoutPostListIndex = props => {
-  // const { customMenu, children, post, allNavPages, categoryOptions, slotLeft, slotRight, slotTop, meta } = props
-  // const [filteredNavPages, setFilteredNavPages] = useState(allNavPages)
-  return (
-    <>
-      <Announcement {...props} />
-      <HomeTopics />
-      <BlogPostListAll {...props} />
-    </>
-  )
-}
-
-/**
  * 文章列表
  * @param {*} props
  * @returns
  */
-// 弃用原有的
-/*const LayoutPostList = props => {
-  const { posts } = props
-  // 顶部如果是按照分类或标签查看文章列表，列表顶部嵌入一个横幅
-  // 如果是搜索，则列表顶部嵌入 搜索框
-  return (
-    <>
-      <div className='w-full max-w-7xl mx-auto justify-center mt-12'>
-        <div
-          id='posts-wrapper'
-          className='card-list grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
-          {posts?.map(post => (
-            <BlogPostCard key={post.id} post={post} className='card' />
-          ))}
-        </div>
-      </div>
-    </>
-  )
-} */
-// 换这个，加入一个标题告诉读者点了啥
+// 分类和标签的文章列表
 const LayoutPostList = props => {
   const { posts } = props
   const router = useRouter()
@@ -242,7 +195,7 @@ const LayoutSlug = props => {
   useEffect(() => {
     // 404
     if (!post) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         if (isBrowser) {
           const article = document.querySelector(
             '#article-wrapper #notion-article'
@@ -254,8 +207,9 @@ const LayoutSlug = props => {
           }
         }
       }, waiting404)
+      return () => clearTimeout(timer)
     }
-  }, [post])
+  }, [post, router, waiting404])
   return (
     <>
       {/* 文章锁 */}
@@ -283,18 +237,7 @@ const LayoutSlug = props => {
               {/* 分享 */}
               {/* <ShareBar post={post} /> */}
               {/* 文章分类和标签信息 */}
-              {/* 原结构，显示不了分类和tag及日期
-              <div className='flex justify-between'>
-                {CONFIG.POST_DETAIL_CATEGORY && post?.category && (
-                  <CategoryItem category={post.category} />
-                )}
-                <div>
-                  {CONFIG.POST_DETAIL_TAG &&
-                    post?.tagItems?.map(tag => (
-                      <TagItemMini key={tag.name} tag={tag} />
-                    ))}
-                </div>
-              </div> */}
+              {}
               {post.type === 'Post' && (
                 <>
                   <div className='post-footer-meta text-sm text-gray-500 dark:text-gray-400 flex flex-wrap items-center gap-x-4 gap-y-2'>
@@ -332,8 +275,7 @@ const LayoutSlug = props => {
                   </div>
                 </>
               )}
-              {/* 上一篇、下一篇文章 */}
-              {/* {post?.type === 'Post' && <ArticleAround prev={prev} next={next} />} */}
+              {/* 同分类的上一篇、下一篇文章 */}
 
               {post?.type === 'Post' && (
                 <nav className='haru-article-around' aria-label='前後の記事'>
@@ -422,7 +364,7 @@ const Layout404 = props => {
   const router = useRouter()
   useEffect(() => {
     // 延时3秒如果加载失败就返回首页
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       const article = isBrowser && document.getElementById('article-wrapper')
       if (!article) {
         router.push('/').then(() => {
@@ -430,7 +372,8 @@ const Layout404 = props => {
         })
       }
     }, 3000)
-  }, [])
+    return () => clearTimeout(timer)
+  }, [router])
 
   return (
     <>
@@ -457,7 +400,6 @@ const Layout404 = props => {
  */
 const LayoutCategoryIndex = props => {
   const { categoryOptions } = props
-  const { locale } = useGlobal()
 
   return (
     <>

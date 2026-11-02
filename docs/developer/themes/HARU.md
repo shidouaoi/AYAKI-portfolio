@@ -28,5 +28,5 @@ Haru 基于 Danbouru，主题目录为 themes/haru，Notion THEME 设置为 haru
 购物车图标（🛒 或 Notion shopping-cart）＋首行「ご購入はこちら」启用购买框，兼容末尾冒号。
 支持 Notion 传统 Callout 标题和新版首个文本子块。框内内容、链接及同步块由原正文渲染器处理。
 标题草图图片：public/haru/purchase-title.png；替换为透明 PNG 时保留同名路径，建议画布比例 600:171。
-外框：public/haru/purchase-frame.svg；识别和样式：themes/haru/components/PurchaseCalloutStyle.js。
+外框由 themes/haru/components/PurchaseCalloutStyle.js 动态绘制：上下曲线高度固定，左右平滑曲线随内容延伸，并保持等粗描边。此文件也负责 Callout 识别和样式。
 需要同步整个信息框时，将整个 Callout 放入同步块；只同步 Callout 内部内容时，各副本仍需保留购物车图标和首行识别文字。

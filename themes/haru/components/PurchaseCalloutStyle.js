@@ -89,16 +89,23 @@ function PurchaseFrames({ boxes }) {
   const [targets, setTargets] = useState([])
   const ids = boxes.map(box => box.id).join(',')
   useEffect(() => {
-    const find = () =>
-      setTargets(
-        boxes
-          .map(({ id }) =>
-            document.querySelector(
-              '#article-wrapper .notion-callout.notion-block-' + id
-            )
+    const find = () => {
+      const next = ids
+        .split(',')
+        .filter(Boolean)
+        .map(id =>
+          document.querySelector(
+            '#article-wrapper .notion-callout.notion-block-' + id
           )
-          .filter(Boolean)
+        )
+        .filter(Boolean)
+      setTargets(previous =>
+        previous.length === next.length &&
+        previous.every((target, index) => target === next[index])
+          ? previous
+          : next
       )
+    }
     find()
     const root = document.getElementById('article-wrapper')
     if (!root) return
