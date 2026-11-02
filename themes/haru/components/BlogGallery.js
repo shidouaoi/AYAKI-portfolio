@@ -44,32 +44,42 @@ export default function BlogGallery({ posts }) {
         <section key={month} aria-label={month}>
           <h2 className='haru-archive-month dark:text-gray-300'>{month}</h2>
           <div className='haru-gallery-grid'>
-            {items.map(post => (
-              <SmartLink
-                key={post.id}
-                href={post.href}
-                className='card haru-gallery-card'
-                aria-label={post.title}
-              >
-                <div className='haru-gallery-media'>
-                  <GalleryImage src={post.galleryImage} icon={post.pageIcon} />
-                  {Number.isInteger(post.ext?.galleryImageCount) &&
-                    post.ext.galleryImageCount > 1 && (
-                      <span
-                        className='haru-gallery-count'
-                        aria-label={`共 ${post.ext.galleryImageCount} 张图片`}
-                      >
-                        {post.ext.galleryImageCount}
-                      </span>
-                    )}
-                </div>
-                <div className='haru-gallery-copy'>
-                  <p className='title font-bold'>{post.title || '無題'}</p>
-                  <p className='description haru-gallery-summary'>
-                    {post.summary || ''}
-                  </p>
-                </div>
-              </SmartLink>
+            {[
+              items.slice(0, Math.ceil(items.length / 2)),
+              items.slice(Math.ceil(items.length / 2))
+            ].map((column, index) => (
+              <div className='haru-gallery-column' key={index}>
+                {column.map(post => (
+                  <SmartLink
+                    key={post.id}
+                    href={post.href}
+                    className='card haru-gallery-card'
+                    aria-label={post.title}
+                  >
+                    <div className='haru-gallery-media'>
+                      <GalleryImage
+                        src={post.galleryImage}
+                        icon={post.pageIcon}
+                      />
+                      {Number.isInteger(post.ext?.galleryImageCount) &&
+                        post.ext.galleryImageCount > 1 && (
+                          <span
+                            className='haru-gallery-count'
+                            aria-label={`共 ${post.ext.galleryImageCount} 张图片`}
+                          >
+                            {post.ext.galleryImageCount}
+                          </span>
+                        )}
+                    </div>
+                    <div className='haru-gallery-copy'>
+                      <p className='title font-bold'>{post.title || '無題'}</p>
+                      <p className='description haru-gallery-summary'>
+                        {post.summary || ''}
+                      </p>
+                    </div>
+                  </SmartLink>
+                ))}
+              </div>
             ))}
           </div>
         </section>

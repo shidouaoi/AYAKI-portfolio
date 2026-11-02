@@ -27,8 +27,33 @@ export function ArticleStyle() {
         color: #393534;
       }
       #theme-haru.haru-article-shell .haru-gallery-grid {
-        column-count: 2;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+        column-count: auto;
         max-width: 100%;
+      }
+      #theme-haru.haru-article-shell .haru-gallery-column {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        min-width: 0;
+      }
+      #theme-haru.haru-article-shell .haru-gallery-card {
+        margin-bottom: 0;
+      }
+      #theme-haru.haru-article-shell .haru-gallery-card:hover {
+        border-color: var(--haru-home-accent) !important;
+        color: var(--haru-home-accent) !important;
+      }
+      #theme-haru.haru-article-shell
+        .haru-gallery-card:hover
+        .haru-gallery-count {
+        background: linear-gradient(45deg, transparent 50%, #f57b66 50%);
+        color: #fff;
+      }
+      #theme-haru.haru-article-shell .haru-gallery-card:hover .title {
+        color: var(--haru-home-accent) !important;
       }
       #theme-haru.haru-article-shell .haru-gallery-layout {
         width: 100%;
@@ -39,8 +64,12 @@ export function ArticleStyle() {
         color: #393534;
       }
       @media (max-width: 767px) {
+        #theme-haru.haru-article-shell .haru-gallery-column {
+          display: contents;
+        }
         #theme-haru.haru-article-shell .haru-gallery-grid {
-          column-count: 1;
+          column-count: auto;
+          grid-template-columns: minmax(0, 1fr);
         }
       }
       @media (max-width: 480px) {
