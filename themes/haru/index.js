@@ -1,5 +1,7 @@
 'use client'
 
+import { hasCategory, newestPosts } from './lib/home'
+
 /**
  * # Haru 主题说明（基于 Danbouru）
  * 主题开发者 [emengweb](https://github.com/emengweb)
@@ -179,7 +181,7 @@ const LayoutPostList = props => {
         {currentTag && (
           <h1 className='haru-page-title dark:text-gray-300'>
             <i className='mr-3 fas fa-tag' />
-            散落的毛 Tag：{currentTag}
+            Tag：{currentTag}
           </h1>
         )}
 
@@ -187,7 +189,7 @@ const LayoutPostList = props => {
         {currentCategory && (
           <h1 className='haru-page-title dark:text-gray-300'>
             <i className='mr-3 fas fa-th' />
-            分装袋 Category：{currentCategory}
+            Category：{currentCategory}
           </h1>
         )}
 
@@ -223,6 +225,17 @@ const LayoutPostList = props => {
  */
 const LayoutSlug = props => {
   const { post, lock, validPassword } = props
+  const categories = (
+    Array.isArray(post?.category) ? post.category : [post?.category]
+  ).filter(Boolean)
+  const related = newestPosts(props.allNavPages || []).filter(item =>
+    categories.some(category => hasCategory(item, category))
+  )
+  const position = related.findIndex(
+    item => item.id === post?.id || item.slug === post?.slug
+  )
+  const prev = position >= 0 ? related[position + 1] : null
+  const next = position > 0 ? related[position - 1] : null
   const router = useRouter()
   const waiting404 = siteConfig('POST_WAITING_TIME_FOR_404') * 1000
   useEffect(() => {
@@ -251,6 +264,12 @@ const LayoutSlug = props => {
         <div id='container'>
           {/* title */}
           <h1 className='haru-page-title dark:text-gray-300'>{post?.title}</h1>
+          {post?.category && (
+            <div className='haru-title-category post-footer-category inline-flex items-center'>
+              <i className='fa-solid fa-table-list' />
+              <CategoryItem category={post.category} noHover />
+            </div>
+          )}
 
           {/* Notion文章主体 */}
           {post && (
@@ -274,44 +293,69 @@ const LayoutSlug = props => {
                     ))}
                 </div>
               </div> */}
-              <hr className='my-8 border-gray-200 dark:border-gray-700' />
-              <div className='post-footer-meta text-sm text-gray-500 dark:text-gray-400 flex flex-wrap items-center gap-x-4 gap-y-2'>
-                {/* 创建日期+修改日期 */}
-                <div className='post-footer-date-row'>
-                  {post?.publishDay && (
-                    <span className='post-footer-date inline-flex items-center'>
-                      <i className='fa-solid fa-clock-rotate-left' />
-                      {post.publishDay}
-                    </span>
-                  )}
+              {post.type === 'Post' && (
+                <>
+                  <hr className='my-8 border-gray-200 dark:border-gray-700' />
+                  <div className='post-footer-meta text-sm text-gray-500 dark:text-gray-400 flex flex-wrap items-center gap-x-4 gap-y-2'>
+                    {/* 创建日期+修改日期 */}
+                    <div className='post-footer-date-row'>
+                      {post?.publishDay && (
+                        <span className='post-footer-date inline-flex items-center'>
+                          <i className='fa-solid fa-clock-rotate-left' />
+                          {post.publishDay}
+                        </span>
+                      )}
 
-                  {post?.lastEditedDay && (
-                    <span className='post-footer-date post-footer-date-edited inline-flex items-center'>
-                      {post.lastEditedDay}
-                    </span>
-                  )}
-                </div>
-                {/* 分类 */}
-                {post?.category && (
-                  <span className='post-footer-category inline-flex items-center'>
-                    <i className='fa-solid fa-table-list' />
-                    <CategoryItem category={post.category} noHover />
-                  </span>
-                )}
-                {/* 标签 */}
-                {post?.tagItems?.length > 0 && (
-                  <span className='post-footer-tags inline-flex items-center flex-wrap'>
-                    <i className='fas fa-tags mr-1.5' />
-                    {post.tagItems.map(tag => (
-                      <TagItemMini key={tag.name} tag={tag} footerStyle />
-                    ))}
-                  </span>
-                )}
-              </div>
-
+                      {post?.lastEditedDay && (
+                        <span className='post-footer-date post-footer-date-edited inline-flex items-center'>
+                          {post.lastEditedDay}
+                        </span>
+                      )}
+                    </div>
+                    {/* 分类 */}
+                    {post?.category && (
+                      <span className='post-footer-category inline-flex items-center'>
+                        <i className='fa-solid fa-table-list' />
+                        <CategoryItem category={post.category} noHover />
+                      </span>
+                    )}
+                    {/* 标签 */}
+                    {post?.tagItems?.length > 0 && (
+                      <span className='post-footer-tags inline-flex items-center flex-wrap'>
+                        <i className='fas fa-tags mr-1.5' />
+                        {post.tagItems.map(tag => (
+                          <TagItemMini key={tag.name} tag={tag} footerStyle />
+                        ))}
+                      </span>
+                    )}
+                  </div>
+                </>
+              )}
               {/* 上一篇、下一篇文章 */}
               {/* {post?.type === 'Post' && <ArticleAround prev={prev} next={next} />} */}
 
+              {post?.type === 'Post' && (
+                <nav className='haru-article-around' aria-label='前後の記事'>
+                  {prev && (
+                    <SmartLink href={prev.href || '/' + prev.slug}>
+                      <i
+                        className='fa-solid fa-angles-left'
+                        aria-hidden='true'
+                      />
+                      <span>{prev.title}</span>
+                    </SmartLink>
+                  )}
+                  {next && (
+                    <SmartLink href={next.href || '/' + next.slug}>
+                      <span>{next.title}</span>
+                      <i
+                        className='fa-solid fa-angles-right'
+                        aria-hidden='true'
+                      />
+                    </SmartLink>
+                  )}
+                </nav>
+              )}
               <AdSlot />
               <WWAds className='w-full' orientation='horizontal' />
 
@@ -349,7 +393,7 @@ const LayoutArchive = props => {
     <div className='w-full'>
       <h1 className='haru-page-title dark:text-gray-300'>
         <i className='mr-3 fas fa-clock-rotate-left' />
-        时间封箱带 Archive
+        Archive
       </h1>
 
       <div className='pb-20'>
@@ -393,7 +437,9 @@ const Layout404 = props => {
             404
           </h2>
           <div className='inline-block text-left h-32 leading-10 items-center'>
-            <h2 className='m-0 p-0'>页面无法加载，即将返回首页</h2>
+            <h2 className='m-0 p-0'>
+              ページを表示できません。ホームに戻ります。
+            </h2>
           </div>
         </div>
       </div>
@@ -414,7 +460,7 @@ const LayoutCategoryIndex = props => {
       <div className='py-10'>
         <h1 className='haru-page-title dark:text-gray-300'>
           <i className='mr-3 fas fa-th' />
-          分装袋 Categories
+          Categories
         </h1>
 
         <div id='category-list' className='haru-taxonomy-list'>
@@ -453,7 +499,7 @@ const LayoutTagIndex = props => {
     <div className='w-full'>
       <h1 className='haru-page-title dark:text-gray-300'>
         <i className='mr-3 fas fa-tags' />
-        散落的毛 Tags
+        Tags
       </h1>
 
       <div id='tags-list' className='haru-taxonomy-list'>

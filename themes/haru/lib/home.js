@@ -1,4 +1,4 @@
-export const CHAT_CATEGORY = '杂谈'
+export const CHAT_CATEGORY = 'ひとこと'
 export function hasCategory(post, category) {
   return (
     Array.isArray(post.category) ? post.category : [post.category]

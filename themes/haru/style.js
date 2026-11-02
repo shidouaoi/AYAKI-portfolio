@@ -170,19 +170,19 @@ const Style = () => {
         margin: 0 1rem;
     }
     /* 文章底部 Tag */
-    #theme-haru .post-footer-meta .haru-footer-tag {
+    #theme-haru .haru-footer-tag {
         border-radius: var(--haru-radius-sm);
     }
 
     /* Tag hover：姜黄色 */
-    #theme-haru .post-footer-meta .haru-footer-tag:hover {
+    #theme-haru .haru-footer-tag:hover {
         background-color: var(--haru-accent) !important;
         color: #ffffff !important;
         box-shadow: none !important;
     }
 
     /* 内部文字也变白 */
-    #theme-haru .post-footer-meta .haru-footer-tag:hover * {
+    #theme-haru .haru-footer-tag:hover * {
         color: #ffffff !important;
     }
     /* Bookmark：和首页 .card 保持一致 */

@@ -1,5 +1,7 @@
+import { JA } from '../labels'
 /* eslint-disable @next/next/no-img-element */
 import { useState } from 'react'
+import TagItemMini from './TagItemMini'
 import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
 import SOCIAL_LINKS from '../socialLinks'
@@ -90,7 +92,7 @@ export default function HaruArticleLayout(props) {
           <div className='haru-article-profile'>
             <SmartLink
               href='/'
-              aria-label='返回首页'
+              aria-label={JA.home}
               className='haru-home-avatar'
             >
               {siteInfo?.icon && <img src={siteInfo.icon} alt={name} />}
@@ -99,24 +101,24 @@ export default function HaruArticleLayout(props) {
               {name}
             </SmartLink>
             <p>{siteInfo?.description}</p>
-            <nav className='haru-home-socials' aria-label='个人链接'>
+            <nav className='haru-home-socials' aria-label={JA.links}>
               {SOCIAL_LINKS.filter(link => link.url).map((link, index) => (
                 <a
                   key={index}
                   href={link.url}
                   target='_blank'
                   rel='noopener noreferrer'
-                  aria-label={link.label || '社交链接'}
+                  aria-label={link.label || JA.links}
                 >
                   <i className={link.icon} aria-hidden='true' />
                 </a>
               ))}
             </nav>
           </div>
-          <nav className='haru-article-sidebar-section' aria-label='自定义菜单'>
+          <nav className='haru-article-sidebar-section' aria-label={JA.menu}>
             <MenuLinks items={customMenu || []} />
           </nav>
-          <SidebarSection title='最新发布' icon='fa-solid fa-clock'>
+          <SidebarSection title={JA.recent} icon='fa-solid fa-clock'>
             <ul className='haru-article-recent'>
               {recent.map(item => (
                 <li key={item.id || item.slug}>
@@ -124,13 +126,13 @@ export default function HaruArticleLayout(props) {
                     href={item.href || '/' + item.slug}
                     title={item.title}
                   >
-                    {item.title || '无标题'}
+                    {item.title || JA.untitled}
                   </SmartLink>
                 </li>
               ))}
             </ul>
           </SidebarSection>
-          <SidebarSection title='分类' icon='fa-solid fa-book'>
+          <SidebarSection title={JA.categories} icon='fa-solid fa-book'>
             <ul>
               {(categoryOptions || []).map(item => (
                 <li key={item.name}>
@@ -143,15 +145,10 @@ export default function HaruArticleLayout(props) {
               ))}
             </ul>
           </SidebarSection>
-          <SidebarSection title='标签' icon='fa-solid fa-tags'>
+          <SidebarSection title={JA.tags} icon='fa-solid fa-tags'>
             <div className='haru-article-tags'>
               {(tagOptions || []).map(item => (
-                <SmartLink
-                  key={item.name}
-                  href={'/tag/' + encodeURIComponent(item.name)}
-                >
-                  #{item.name}
-                </SmartLink>
+                <TagItemMini key={item.name} tag={item} footerStyle />
               ))}
             </div>
           </SidebarSection>

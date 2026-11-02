@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react'
+import { JA } from '../labels'
 /* eslint-disable @next/next/no-img-element */
 import dynamic from 'next/dynamic'
 import SmartLink from '@/components/SmartLink'
@@ -38,13 +40,23 @@ function PostCard({ post }) {
     <SmartLink href={url(post)} className='haru-home-post-card'>
       <PostIcon value={post.pageIcon} />
       <span className='haru-home-post-copy'>
-        <span className='haru-home-post-title'>{post.title || '无标题'}</span>
+        <span className='haru-home-post-title'>
+          {post.title || JA.untitled}
+        </span>
         <span className='haru-home-post-summary'>{post.summary}</span>
       </span>
     </SmartLink>
   )
 }
 function ChatCard({ post }) {
+  const [scrolling, setScrolling] = useState(false)
+  const scrollTimer = useRef()
+  useEffect(() => () => clearTimeout(scrollTimer.current), [])
+  const onScroll = () => {
+    setScrolling(true)
+    clearTimeout(scrollTimer.current)
+    scrollTimer.current = setTimeout(() => setScrolling(false), 800)
+  }
   return (
     <article className='haru-home-chat'>
       <svg
@@ -54,7 +66,16 @@ function ChatCard({ post }) {
         aria-hidden='true'
       >
         <path
+          className='haru-chat-outline-desktop'
           d='M62 8 C100 -5 135 23 196 18 L367 9 C441 13 479 42 473 108 C486 105 498 96 503 92 Q507 89 505 95 C501 113 489 124 468 128 C455 221 483 298 471 390 C461 483 478 566 470 646 C474 689 435 715 383 710 C279 704 233 708 172 712 C109 716 53 720 24 691 C-9 657 16 583 16 535 C10 461 0 419 9 350 C18 275 23 232 13 171 C1 108 -2 39 35 17 C43 11 52 8 62 8 Z'
+          fill='white'
+          stroke='#e3d7d2'
+          strokeWidth='3.5'
+          vectorEffect='non-scaling-stroke'
+        />
+        <path
+          className='haru-chat-outline-mobile'
+          d='M62 8 C100 -5 135 23 196 18 L337 10 C350 6 357 -5 359 -19 Q361 -26 364 -20 C372 -4 367 7 361 11 L379 11 C441 13 479 42 468 128 C455 221 483 298 471 390 C461 483 478 566 470 646 C474 689 435 715 383 710 C279 704 233 708 172 712 C109 716 53 720 24 691 C-9 657 16 583 16 535 C10 461 0 419 9 350 C18 275 23 232 13 171 C1 108 -2 39 35 17 C43 11 52 8 62 8 Z'
           fill='white'
           stroke='#e3d7d2'
           strokeWidth='3.5'
@@ -66,7 +87,7 @@ function ChatCard({ post }) {
         />
         <image
           href='/haru/chat-title.png'
-          x='53'
+          x='46'
           y='12'
           width='100'
           height='43'
@@ -74,16 +95,16 @@ function ChatCard({ post }) {
         />
       </svg>
       <div
-        className='haru-home-chat-content'
+        className={
+          'haru-home-chat-content' + (scrolling ? ' is-scrolling' : '')
+        }
+        onScroll={onScroll}
         tabIndex={0}
         role='region'
-        aria-label='最新杂谈正文'
+        aria-label={JA.chat}
       >
         {post ? (
           <>
-            <h2>
-              <SmartLink href={url(post)}>{post.title || '无标题'}</SmartLink>
-            </h2>
             {post.blockMap ? (
               <NotionPage post={post} />
             ) : (
@@ -97,15 +118,18 @@ function ChatCard({ post }) {
                       alt=''
                     />
                   )}
-                <SmartLink className='haru-home-more' href={url(post)}>
-                  <span>more</span>
-                  <Fa name='fa-solid fa-angles-right' />
-                </SmartLink>
               </>
             )}
+            <SmartLink className='haru-home-chat-date' href={url(post)}>
+              <time
+                dateTime={post.date?.start_date || post.publishDay || undefined}
+              >
+                {post.publishDay || post.date?.start_date || formatDate(post)}
+              </time>
+            </SmartLink>
           </>
         ) : (
-          <p className='haru-home-empty'>还没有杂谈，下一次见面再聊吧。</p>
+          <p className='haru-home-empty'>{JA.emptyChat}</p>
         )}
       </div>
     </article>
@@ -117,47 +141,49 @@ function Profile({ siteInfo, NOTION_CONFIG, chatPosts }) {
   const socials = SOCIAL_LINKS
   return (
     <aside className='haru-home-profile'>
-      <div className='haru-home-avatar'>
-        {siteInfo?.icon && (
-          <img src={siteInfo.icon} alt={siteInfo.title || '头像'} />
-        )}
+      <div className='haru-home-profile-header'>
+        <div className='haru-home-avatar'>
+          {siteInfo?.icon && (
+            <img src={siteInfo.icon} alt={siteInfo.title || '头像'} />
+          )}
+        </div>
+        <h1>{siteInfo?.title || get('AUTHOR')}</h1>
+        <p className='haru-home-bio'>{siteInfo?.description}</p>
+        <nav className='haru-home-socials' aria-label={JA.links}>
+          {socials.map((link, index) =>
+            link.url ? (
+              <a
+                key={index}
+                href={link.url}
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label={link.label || JA.links}
+              >
+                <Fa name={link.icon} />
+              </a>
+            ) : (
+              <span
+                className='haru-home-social-placeholder'
+                key={index}
+                aria-hidden='true'
+              >
+                <Fa name={link.icon} />
+              </span>
+            )
+          )}
+        </nav>
       </div>
-      <h1>{siteInfo?.title || get('AUTHOR')}</h1>
-      <p className='haru-home-bio'>{siteInfo?.description}</p>
-      <nav className='haru-home-socials' aria-label='个人链接'>
-        {socials.map((link, index) =>
-          link.url ? (
-            <a
-              key={index}
-              href={link.url}
-              target='_blank'
-              rel='noopener noreferrer'
-              aria-label={link.label || '社交链接'}
-            >
-              <Fa name={link.icon} />
-            </a>
-          ) : (
-            <span
-              className='haru-home-social-placeholder'
-              key={index}
-              aria-hidden='true'
-            >
-              <Fa name={link.icon} />
-            </span>
-          )
-        )}
-      </nav>
       <div className='haru-home-chat-list'>
         {chatPosts.map(post => (
           <SmartLink key={post.id || post.slug} href={url(post)}>
-            <span>{post.title || '无标题'}</span>
+            <span>{post.title || JA.untitled}</span>
             <time dateTime={post.date?.start_date || undefined}>
               {formatDate(post)}
             </time>
           </SmartLink>
         ))}
         {chatPosts.length === 0 && (
-          <p className='haru-home-empty'>杂谈更新会出现在这里。</p>
+          <p className='haru-home-empty'>{JA.chatUpdates}</p>
         )}
         <SmartLink
           className='haru-home-more'
@@ -191,7 +217,8 @@ export function HomeFooter({ NOTION_CONFIG, siteInfo }) {
   return (
     <footer className='haru-home-footer'>
       <span>
-        {author} © {String(since) === String(year) ? year : since + '–' + year}
+        <a href={siteConfig('LINK', '/', NOTION_CONFIG)}>{author}</a> ©{' '}
+        {String(since) === String(year) ? year : since + '–' + year}
       </span>
       <span className='haru-home-footer-divider'>/</span>
       <span>

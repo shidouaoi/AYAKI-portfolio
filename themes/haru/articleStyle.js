@@ -46,6 +46,39 @@ export function ArticleStyle() {
           column-count: 1;
         }
       }
+      .haru-article-sidebar {
+        position: sticky;
+        top: 28px;
+        max-height: calc(100vh - 56px);
+        overflow-y: auto;
+        scrollbar-width: thin;
+      }
+      .haru-title-category {
+        margin: -12px 0 24px;
+        gap: 6px;
+      }
+      .haru-article-around {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        margin: 32px 0;
+      }
+      .haru-article-around a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        max-width: 48%;
+      }
+      .haru-article-around a:last-child {
+        margin-left: auto;
+      }
+      @media (max-width: 640px) {
+        .haru-article-sidebar {
+          position: static;
+          max-height: none;
+          overflow: visible;
+        }
+      }
       .haru-article-layout {
         display: grid;
         grid-template-columns: minmax(0, 570px) minmax(0, 220px);

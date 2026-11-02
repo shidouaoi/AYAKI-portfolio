@@ -3,19 +3,19 @@
 // 留空 src 时使用该分类首篇文章封面。description 留空时读取首篇文章摘要。
 const HOME_TOPICS = [
   {
-    id: 'works',
+    id: 'haru-renzai',
     src: 'haru/haru-cover.jfif',
     href: '/category/ハル日和',
     category: 'ハル日和',
     title: 'ハル日和 〜僕たちの家族日記〜',
     description:
-      'いっぱい笑って、ちょっと悩んで、疲れたら一緒に眠る。愛に溢れた家族の話。',
-    note: '(note)这里为什么要分两行？',
+      '幸せいっぱい仲良し家族3人。いっぱい笑って、ちょっと悩んで、疲れたら一緒に眠る。愛に溢れた家族の話。',
+    note: 'オメガバースプロジェクト𝗦𝗘𝗔𝗦𝗢𝗡𝟭𝟯  𝟵.𝟯𝟬 𝗢𝗡 𝗦𝗔𝗟𝗘',
     icon: 'fas fa-layer-group',
     limit: 4
   },
   {
-    id: 'second-series',
+    id: 'haru-manga',
     src: 'haru/haru-other-1.jfif', // 例：'/haru/second-series.webp'；留空使用文章封面
     href: '/category/第二个连载',
     category: '第二个连载',
