@@ -228,6 +228,13 @@ export function HomeFooter({ NOTION_CONFIG, siteInfo }) {
         </a>
       </span>
       <span className='haru-home-footer-divider'>/</span>
+      <span>
+        Theme By{' '}
+        <a href='https://cat-fish.net'>
+          猫魚
+        </a>
+      </span>
+      <span className='haru-home-footer-divider'>/</span>
       <span className='busuanzi_container_site_pv'>
         <Fa name='fa-solid fa-glasses' />{' '}
         <span className='busuanzi_value_site_pv'>—</span>
