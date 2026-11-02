@@ -139,6 +139,33 @@ function PurchaseFrame({ target }) {
   const right = w - 4
   const top = 5
   const bottom = h - 5
+  const sideCurve = (x, from, to, inward) => {
+    const segments = Math.max(1, Math.round(Math.abs(to - from) / 280))
+    const step = (to - from) / segments
+    const amplitude = Math.min(w * 0.014, 7)
+    const commands = []
+    for (let i = 0; i < segments; i++) {
+      const y = from + step * i
+      const bend = x + inward * amplitude
+      commands.push(
+        'C',
+        x,
+        y + step * 0.2,
+        bend,
+        y + step * 0.3,
+        bend,
+        y + step * 0.5,
+        'C',
+        bend,
+        y + step * 0.7,
+        x,
+        y + step * 0.8,
+        x,
+        y + step
+      )
+    }
+    return commands
+  }
   const d = [
     'M',
     left,
@@ -171,9 +198,7 @@ function PurchaseFrame({ target }) {
     cap * 0.35,
     right,
     cap,
-    'L',
-    right,
-    h - cap,
+    ...sideCurve(right, cap, h - cap, -1),
     'C',
     right,
     h - cap * 0.3,
@@ -202,9 +227,7 @@ function PurchaseFrame({ target }) {
     h - cap * 0.3,
     left,
     h - cap,
-    'L',
-    left,
-    cap,
+    ...sideCurve(left, h - cap, cap, 1),
     'Z'
   ].join(' ')
   return (
