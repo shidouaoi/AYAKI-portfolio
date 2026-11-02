@@ -553,8 +553,18 @@ export function HomeStyle() {
             margin-right: auto;
           }
           .haru-home-post-grid {
+            width: 75%;
+            max-width: 270px;
+            margin: 7.2px auto 0;
+            grid-template-columns: minmax(0, 1fr);
             gap: 14.4px;
-            margin-top: 7.2px;
+          }
+          .haru-home-topic-more {
+            width: 75%;
+            max-width: 270px;
+            margin-left: auto;
+            margin-right: auto;
+            justify-content: flex-end;
           }
           .haru-home-post-card {
             padding: 9px;

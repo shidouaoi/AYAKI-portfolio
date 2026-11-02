@@ -97,61 +97,67 @@ export default function HaruArticleLayout(props) {
             >
               {siteInfo?.icon && <img src={siteInfo.icon} alt={name} />}
             </SmartLink>
-            <SmartLink href='/' className='haru-article-name'>
-              {name}
-            </SmartLink>
-            <p>{siteInfo?.description}</p>
-            <nav className='haru-home-socials' aria-label={JA.links}>
-              {SOCIAL_LINKS.filter(link => link.url).map((link, index) => (
-                <a
-                  key={index}
-                  href={link.url}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  aria-label={link.label || JA.links}
-                >
-                  <i className={link.icon} aria-hidden='true' />
-                </a>
-              ))}
-            </nav>
-          </div>
-          <nav className='haru-article-sidebar-section' aria-label={JA.menu}>
-            <MenuLinks items={customMenu || []} />
-          </nav>
-          <SidebarSection title={JA.recent} icon='fa-solid fa-clock'>
-            <ul className='haru-article-recent'>
-              {recent.map(item => (
-                <li key={item.id || item.slug}>
-                  <SmartLink
-                    href={item.href || '/' + item.slug}
-                    title={item.title}
+            <div className='haru-article-profile-copy'>
+              <SmartLink href='/' className='haru-article-name'>
+                {name}
+              </SmartLink>
+              <p>{siteInfo?.description}</p>
+              <nav className='haru-home-socials' aria-label={JA.links}>
+                {SOCIAL_LINKS.filter(link => link.url).map((link, index) => (
+                  <a
+                    key={index}
+                    href={link.url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    aria-label={link.label || JA.links}
                   >
-                    {item.title || JA.untitled}
-                  </SmartLink>
-                </li>
-              ))}
-            </ul>
-          </SidebarSection>
-          <SidebarSection title={JA.categories} icon='fa-solid fa-book'>
-            <ul>
-              {(categoryOptions || []).map(item => (
-                <li key={item.name}>
-                  <SmartLink
-                    href={'/category/' + encodeURIComponent(item.name)}
-                  >
-                    {item.name}
-                  </SmartLink>
-                </li>
-              ))}
-            </ul>
-          </SidebarSection>
-          <SidebarSection title={JA.tags} icon='fa-solid fa-tags'>
-            <div className='haru-article-tags'>
-              {(tagOptions || []).map(item => (
-                <TagItemMini key={item.name} tag={item} footerStyle />
-              ))}
+                    <i className={link.icon} aria-hidden='true' />
+                  </a>
+                ))}
+              </nav>
             </div>
-          </SidebarSection>
+          </div>
+          <div className='haru-sidebar-links'>
+            <nav className='haru-article-sidebar-section' aria-label={JA.menu}>
+              <MenuLinks items={customMenu || []} />
+            </nav>
+            <SidebarSection title={JA.recent} icon='fa-solid fa-clock'>
+              <ul className='haru-article-recent'>
+                {recent.map(item => (
+                  <li key={item.id || item.slug}>
+                    <SmartLink
+                      href={item.href || '/' + item.slug}
+                      title={item.title}
+                    >
+                      {item.title || JA.untitled}
+                    </SmartLink>
+                  </li>
+                ))}
+              </ul>
+            </SidebarSection>
+          </div>
+          <div className='haru-sidebar-taxonomies'>
+            <SidebarSection title={JA.categories} icon='fa-solid fa-book'>
+              <ul>
+                {(categoryOptions || []).map(item => (
+                  <li key={item.name}>
+                    <SmartLink
+                      href={'/category/' + encodeURIComponent(item.name)}
+                    >
+                      {item.name}
+                    </SmartLink>
+                  </li>
+                ))}
+              </ul>
+            </SidebarSection>
+            <SidebarSection title={JA.tags} icon='fa-solid fa-tags'>
+              <div className='haru-article-tags'>
+                {(tagOptions || []).map(item => (
+                  <TagItemMini key={item.name} tag={item} footerStyle />
+                ))}
+              </div>
+            </SidebarSection>
+          </div>
         </aside>
       </div>
       <HomeFooter NOTION_CONFIG={NOTION_CONFIG} siteInfo={siteInfo} />

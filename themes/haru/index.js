@@ -297,7 +297,6 @@ const LayoutSlug = props => {
               </div> */}
               {post.type === 'Post' && (
                 <>
-                  <hr className='my-8 border-gray-200 dark:border-gray-700' />
                   <div className='post-footer-meta text-sm text-gray-500 dark:text-gray-400 flex flex-wrap items-center gap-x-4 gap-y-2'>
                     {/* 创建日期+修改日期 */}
                     <div className='post-footer-date-row'>
@@ -357,6 +356,9 @@ const LayoutSlug = props => {
                     </SmartLink>
                   )}
                 </nav>
+              )}
+              {post?.type === 'Post' && (prev || next) && (
+                <hr className='haru-mobile-article-divider my-8 border-gray-200 dark:border-gray-700' />
               )}
               <AdSlot />
               <WWAds className='w-full' orientation='horizontal' />

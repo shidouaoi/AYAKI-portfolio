@@ -62,6 +62,9 @@ export function ArticleStyle() {
         margin: -12px 0 24px;
         gap: 6px;
       }
+      .haru-mobile-article-divider {
+        display: none;
+      }
       .haru-article-around {
         display: flex;
         justify-content: space-between;
@@ -78,11 +81,22 @@ export function ArticleStyle() {
         margin-left: auto;
       }
       @media (max-width: 640px) {
+        .haru-mobile-article-divider {
+          display: block;
+          margin: 32px 0;
+        }
+        .haru-article-around {
+          margin-bottom: 0;
+        }
         .haru-article-sidebar {
           position: static;
           max-height: none;
           overflow: visible;
         }
+      }
+      .haru-sidebar-links,
+      .haru-sidebar-taxonomies {
+        display: contents;
       }
       .haru-article-layout {
         display: grid;
@@ -272,7 +286,71 @@ export function ArticleStyle() {
         }
         .haru-article-sidebar {
           margin-top: 55px;
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          gap: 64px 20px;
         }
+        .haru-article-profile {
+          grid-column: 1 / -1;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
+        .haru-article-profile-copy {
+          flex: 1;
+          min-width: 0;
+        }
+        .haru-article-profile .haru-home-avatar {
+          flex: 0 0 90px;
+          margin: 0;
+        }
+        .haru-article-profile .haru-home-socials {
+          clear: none;
+          gap: 10px;
+          margin: 12px 0 0;
+        }
+        .haru-article-profile .haru-article-name {
+          margin-bottom: 4px;
+        }
+        .haru-sidebar-taxonomies {
+          display: block;
+          grid-column: 1;
+          grid-row: 2;
+          min-width: 0;
+        }
+        .haru-sidebar-links {
+          display: block;
+          grid-column: 2;
+          grid-row: 2;
+          min-width: 0;
+        }
+        .haru-sidebar-links > nav > .haru-article-menu > li:first-child {
+          margin-top: 0;
+        }
+        .haru-sidebar-taxonomies
+          > .haru-article-sidebar-section:first-child
+          > h2,
+        .haru-sidebar-links > nav > .haru-article-menu > li:first-child > a,
+        .haru-sidebar-links
+          > nav
+          > .haru-article-menu
+          > li:first-child
+          > button {
+          font-size: 16px;
+          line-height: 24px;
+        }
+        .haru-article-recent > li:nth-child(n + 6) {
+          display: none;
+        }
+        .haru-menu-toggle span {
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .haru-article-tags {
+          gap: 7px 4px;
+        }
+
         .haru-article-profile .haru-home-avatar {
           float: none;
         }
