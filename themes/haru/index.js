@@ -189,7 +189,7 @@ const LayoutPostList = props => {
         {/* Category 文章结果标题 */}
         {currentCategory && (
           <h1 className='haru-page-title dark:text-gray-300'>
-            <i className='mr-3 fas fa-th' />
+            <i className='mr-3 fa-solid fa-book' />
             Category：{currentCategory}
           </h1>
         )}
@@ -463,7 +463,7 @@ const LayoutCategoryIndex = props => {
     <>
       <div className='py-10'>
         <h1 className='haru-page-title dark:text-gray-300'>
-          <i className='mr-3 fas fa-th' />
+          <i className='mr-3 fa-solid fa-book' />
           Categories
         </h1>
 

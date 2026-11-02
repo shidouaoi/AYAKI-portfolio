@@ -138,7 +138,7 @@ export default function HaruArticleLayout(props) {
           </div>
           <div className='haru-sidebar-taxonomies'>
             <SidebarSection title={JA.categories} icon='fa-solid fa-book'>
-              <ul>
+              <ul className='haru-article-categories'>
                 {(categoryOptions || []).map(item => (
                   <li key={item.name}>
                     <SmartLink

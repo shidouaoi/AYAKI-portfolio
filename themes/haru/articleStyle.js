@@ -252,7 +252,8 @@ export function ArticleStyle() {
       .haru-article-menu i {
         margin-right: 8px;
       }
-      .haru-article-recent li a::before {
+      .haru-article-recent li a::before,
+      .haru-article-categories li a::before {
         content: '·';
         margin-right: 8px;
       }
