@@ -280,7 +280,7 @@ export function ArticleStyle() {
         }
         .haru-article-layout {
           display: block;
-          width: calc(100% - 36px);
+          width: calc(100% - 40px);
         }
         #theme-haru.haru-article-shell .haru-page-title {
           font-size: 29px;
@@ -296,10 +296,14 @@ export function ArticleStyle() {
           display: flex;
           align-items: center;
           gap: 20px;
+          width: fit-content;
+          max-width: 100%;
+          justify-self: center;
         }
         .haru-article-profile-copy {
-          flex: 1;
+          flex: 0 1 auto;
           min-width: 0;
+          max-width: 200px;
         }
         .haru-article-profile .haru-home-avatar {
           flex: 0 0 90px;

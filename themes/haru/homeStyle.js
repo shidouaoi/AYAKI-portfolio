@@ -271,6 +271,9 @@ export function HomeStyle() {
           font-weight: 400;
           margin: -5px 0 23.4px;
         }
+        .haru-home-topic-description {
+          white-space: pre-line;
+        }
         .haru-home-topic-description,
         .haru-home-topic-note {
           font-size: 14px;
@@ -456,7 +459,7 @@ export function HomeStyle() {
         }
         @media (max-width: 580px) {
           .haru-home-main {
-            width: calc(100% - 28.8px);
+            width: calc(100% - 40px);
             padding-top: 27px;
           }
           .haru-home-intro {
@@ -470,6 +473,20 @@ export function HomeStyle() {
           .haru-home-profile-header {
             order: -1;
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+          }
+          .haru-home-profile-header > .haru-home-avatar {
+            float: none;
+            margin: 0 0 14px;
+          }
+          .haru-home-profile-header > h1 {
+            padding-top: 0;
+          }
+          .haru-home-profile-header > .haru-home-bio {
+            min-height: 0;
           }
           .haru-home-chat-list {
             order: 1;
@@ -635,6 +652,9 @@ export function HomeStyle() {
             margin-right: auto;
             align-self: center;
           }
+        }
+        #theme-haru .haru-home-footer {
+          font-size: 12px;
         }
         @media (prefers-reduced-motion: reduce) {
           .haru-home-post-card,
