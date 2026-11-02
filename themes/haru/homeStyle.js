@@ -16,6 +16,7 @@ export function HomeStyle() {
           color: #393534;
           background: #fee8e4 url('/haru/bg.webp') center top / 200% auto
             repeat-y;
+          background-attachment: fixed;
           min-height: 100vh;
           font-size: 14px;
           font-family:

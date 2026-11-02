@@ -18,6 +18,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { ArticleLock } from './components/ArticleLock'
 import CONFIG from './config'
 import HaruHome from './components/HaruHome'
+import LinkPolicy from './components/LinkPolicy'
 import PurchaseCalloutStyle from './components/PurchaseCalloutStyle'
 import HaruArticleLayout from './components/HaruArticleLayout'
 import BlogGallery from './components/BlogGallery'
@@ -72,6 +73,7 @@ const LayoutBase = props => {
   if (router.pathname === '/')
     return (
       <div id='theme-haru' className='haru-home-shell'>
+        <LinkPolicy NOTION_CONFIG={props.NOTION_CONFIG} />
         {children}
       </div>
     )
@@ -89,6 +91,7 @@ const LayoutBase = props => {
       }}
     >
       <Style />
+      <LinkPolicy NOTION_CONFIG={props.NOTION_CONFIG} />
       <HaruArticleLayout {...props}>{children}</HaruArticleLayout>
     </ThemeGlobalNav.Provider>
   )
