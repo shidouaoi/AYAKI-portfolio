@@ -23,3 +23,10 @@ Haru 基于 Danbouru，主题目录为 themes/haru，Notion THEME 设置为 haru
 作品配置统一在 themes/haru/homeTopics.js：src（图片路径）、href（点击地址）、category（文章分类）、title、description、note、icon（FA 类名）、limit（文章数）。目前用数据库已有的“技术分享”分类展示四篇真实文章；请替换为自己的作品内容。src 留空时回退到文章封面。
 
 背景、从设计稿提取的两处标题字、favicon 放在 public/haru/。全站 favicon.ico/png/webp 已替换。头像继续读取 Notion 数据库 icon。悬停强调色 #f57b66，卡片保留向右下移动并收起阴影的效果。
+
+## 購入情報 Callout
+购物车图标（🛒 或 Notion shopping-cart）＋首行「ご購入はこちら」启用购买框，兼容末尾冒号。
+支持 Notion 传统 Callout 标题和新版首个文本子块。框内内容、链接及同步块由原正文渲染器处理。
+标题草图图片：public/haru/purchase-title.png；替换为透明 PNG 时保留同名路径，建议画布比例 600:171。
+外框：public/haru/purchase-frame.svg；识别和样式：themes/haru/components/PurchaseCalloutStyle.js。
+需要同步整个信息框时，将整个 Callout 放入同步块；只同步 Callout 内部内容时，各副本仍需保留购物车图标和首行识别文字。

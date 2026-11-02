@@ -20,6 +20,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { ArticleLock } from './components/ArticleLock'
 import CONFIG from './config'
 import HaruHome from './components/HaruHome'
+import PurchaseCalloutStyle from './components/PurchaseCalloutStyle'
 import HaruArticleLayout from './components/HaruArticleLayout'
 import HomeTopics from './components/HomeTopics'
 import BlogGallery from './components/BlogGallery'
@@ -274,6 +275,7 @@ const LayoutSlug = props => {
           {/* Notion文章主体 */}
           {post && (
             <section className='px-1'>
+              <PurchaseCalloutStyle post={post} />
               <div id='article-wrapper'>
                 <NotionPage post={post} />
               </div>
