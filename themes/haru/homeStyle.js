@@ -598,6 +598,34 @@ export function HomeStyle() {
             right: 0;
           }
         }
+        .haru-home-intro {
+          --haru-social-width: 252px;
+        }
+        .haru-home-intro .haru-home-socials,
+        .haru-home-intro .haru-home-chat-list {
+          width: var(--haru-social-width);
+          max-width: 100%;
+          box-sizing: border-box;
+        }
+        .haru-home-intro .haru-home-socials > * {
+          flex-shrink: 0;
+        }
+        @media (max-width: 900px) {
+          .haru-home-intro {
+            --haru-social-width: 198.9px;
+          }
+        }
+        @media (max-width: 580px) {
+          .haru-home-intro .haru-home-socials {
+            margin-left: auto;
+            margin-right: auto;
+          }
+          .haru-home-intro .haru-home-chat-list {
+            margin-left: auto;
+            margin-right: auto;
+            align-self: center;
+          }
+        }
         @media (prefers-reduced-motion: reduce) {
           .haru-home-post-card,
           .haru-home-socials a {
