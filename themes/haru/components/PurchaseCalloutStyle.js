@@ -107,24 +107,121 @@ function PurchaseFrames({ boxes }) {
     return () => observer.disconnect()
   }, [ids])
   return targets.map(target =>
-    createPortal(
-      <svg
-        className='haru-purchase-frame'
-        viewBox='0 0 880 590'
-        preserveAspectRatio='none'
-        aria-hidden='true'
-      >
-        <path
-          d='M145 14 C260 4 325 20 440 17 C555 14 650 5 741 18 C823 30 860 67 865 139 C871 219 857 259 861 333 C865 406 877 476 841 525 C805 577 749 579 663 574 C555 568 497 575 402 577 C297 580 223 587 140 577 C58 568 18 529 15 456 C12 384 26 330 20 260 C13 186 4 132 34 83 C57 45 94 20 145 14 Z'
-          fill='white'
-          stroke='#e3d7d2'
-          strokeWidth='3'
-          vectorEffect='non-scaling-stroke'
-          strokeLinejoin='round'
-        />
-      </svg>,
-      target,
-      target.className
-    )
+    createPortal(<PurchaseFrame target={target} />, target, target.className)
+  )
+}
+
+function PurchaseFrame({ target }) {
+  const [size, setSize] = useState({
+    width: target.clientWidth,
+    height: target.clientHeight
+  })
+  useEffect(() => {
+    const update = () => {
+      const width = target.clientWidth
+      const height = target.clientHeight
+      setSize(previous =>
+        previous.width === width && previous.height === height
+          ? previous
+          : { width, height }
+      )
+    }
+    update()
+    const observer = new ResizeObserver(update)
+    observer.observe(target)
+    return () => observer.disconnect()
+  }, [target])
+  const { width: w, height: h } = size
+  if (!w || !h) return null
+  // Caps depend on width, never on content height. Only the side segments extend.
+  const cap = Math.min(w * 0.16, 80, h / 3)
+  const left = 4
+  const right = w - 4
+  const top = 5
+  const bottom = h - 5
+  const d = [
+    'M',
+    left,
+    cap,
+    'C',
+    left,
+    cap * 0.35,
+    w * 0.065,
+    top,
+    w * 0.18,
+    top,
+    'C',
+    w * 0.3,
+    1,
+    w * 0.38,
+    11,
+    w * 0.5,
+    8,
+    'C',
+    w * 0.65,
+    4,
+    w * 0.72,
+    2,
+    w * 0.83,
+    7,
+    'C',
+    w * 0.95,
+    11,
+    right,
+    cap * 0.35,
+    right,
+    cap,
+    'L',
+    right,
+    h - cap,
+    'C',
+    right,
+    h - cap * 0.3,
+    w * 0.95,
+    bottom,
+    w * 0.83,
+    bottom,
+    'C',
+    w * 0.7,
+    h - 1,
+    w * 0.62,
+    h - 12,
+    w * 0.5,
+    h - 9,
+    'C',
+    w * 0.36,
+    h - 6,
+    w * 0.28,
+    h - 1,
+    w * 0.17,
+    bottom,
+    'C',
+    w * 0.05,
+    bottom,
+    left,
+    h - cap * 0.3,
+    left,
+    h - cap,
+    'L',
+    left,
+    cap,
+    'Z'
+  ].join(' ')
+  return (
+    <svg
+      className='haru-purchase-frame'
+      viewBox={'0 0 ' + w + ' ' + h}
+      preserveAspectRatio='none'
+      aria-hidden='true'
+    >
+      <path
+        d={d}
+        fill='white'
+        stroke='#e3d7d2'
+        strokeWidth='3'
+        vectorEffect='non-scaling-stroke'
+        strokeLinejoin='round'
+      />
+    </svg>
   )
 }
