@@ -44,7 +44,7 @@ export function ArticleStyle() {
       }
       #theme-haru.haru-article-shell .haru-gallery-card:hover {
         border-color: var(--haru-home-accent) !important;
-        color: var(--haru-home-accent) !important;
+        color: #393534 !important;
       }
       #theme-haru.haru-article-shell
         .haru-gallery-card:hover
@@ -52,8 +52,13 @@ export function ArticleStyle() {
         background: linear-gradient(45deg, transparent 50%, #f57b66 50%);
         color: #fff;
       }
+      #theme-haru.haru-article-shell .haru-gallery-card .title,
       #theme-haru.haru-article-shell .haru-gallery-card:hover .title {
-        color: var(--haru-home-accent) !important;
+        color: #393534 !important;
+      }
+      #theme-haru.haru-article-shell .haru-gallery-card .description,
+      #theme-haru.haru-article-shell .haru-gallery-card:hover .description {
+        color: rgb(85 81 79) !important;
       }
       #theme-haru.haru-article-shell .haru-gallery-layout {
         width: 100%;

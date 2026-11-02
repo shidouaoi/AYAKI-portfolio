@@ -224,7 +224,7 @@ const LayoutSlug = props => {
           <h1 className='haru-page-title dark:text-gray-300'>{post?.title}</h1>
           {post?.category && (
             <div className='haru-title-category post-footer-category inline-flex items-center'>
-              <i className='fa-solid fa-table-list' />
+              <i className='fa-solid fa-book' />
               <CategoryItem category={post.category} noHover />
             </div>
           )}
@@ -262,7 +262,7 @@ const LayoutSlug = props => {
                     {/* 分类 */}
                     {post?.category && (
                       <span className='post-footer-category inline-flex items-center'>
-                        <i className='fa-solid fa-table-list' />
+                        <i className='fa-solid fa-book' />
                         <CategoryItem category={post.category} noHover />
                       </span>
                     )}

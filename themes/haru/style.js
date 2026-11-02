@@ -856,7 +856,7 @@ const Style = () => {
         justify-content: space-between;
         gap: 24px;
         margin: 32px 0;
-        color: #6b7280;
+        color: rgb(85 81 79);
         font-size: 1.1rem;
         font-weight: 300;
         line-height: 1.3;
