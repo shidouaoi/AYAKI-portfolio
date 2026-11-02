@@ -960,18 +960,18 @@ const Style = () => {
         position: absolute;
         z-index: 2;
         right: 0;
-        bottom: 0;
+        top: 0;
         display: grid;
         place-items: center;
         box-sizing: border-box;
         width: 30px;
         height: 30px;
         /* Center the number at the triangle's centroid (20px, 20px). */
-        padding: 10px 0 0 10px;
+        padding: 0 0 10px 10px;
         text-align: center;
         /* Avoid clip-path antialiasing along the flush right/bottom edges. */
-        background: linear-gradient(135deg, transparent 50%, #cb912f 50%);
-        color: white;
+        background: linear-gradient(45deg, transparent 50%, #e3d7d2 50%);
+        color: #393534;
         font-size: 13px;
         font-weight: 700;
         line-height: 1;

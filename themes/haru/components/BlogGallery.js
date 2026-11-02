@@ -9,24 +9,30 @@ function GalleryImage({ src, icon }) {
   return src && failedSource !== src ? (
     <>
       <img
-      className={`haru-gallery-cover${longSource === src ? ' is-long' : ''}`}
-      src={src}
-      alt=''
-      loading='lazy'
-      decoding='async'
-      onLoad={event => {
-        const image = event.currentTarget
-        setLongSource(image.naturalHeight / image.naturalWidth > 4 / 3 ? src : null)
-      }}
-      onError={() => setFailedSource(src)}
-    />
+        className={`haru-gallery-cover${longSource === src ? ' is-long' : ''}`}
+        src={src}
+        alt=''
+        loading='lazy'
+        decoding='async'
+        onLoad={event => {
+          const image = event.currentTarget
+          setLongSource(
+            image.naturalHeight / image.naturalWidth > 4 / 3 ? src : null
+          )
+        }}
+        onError={() => setFailedSource(src)}
+      />
       {longSource === src && (
         <span className='haru-gallery-crop-fade' aria-hidden='true' />
       )}
     </>
   ) : (
     <span className='haru-gallery-empty'>
-      {icon ? <NotionIcon icon={icon} className='haru-gallery-icon' /> : '暂无图片'}
+      {icon ? (
+        <NotionIcon icon={icon} className='haru-gallery-icon' />
+      ) : (
+        '暂无图片'
+      )}
     </span>
   )
 }
@@ -47,20 +53,20 @@ export default function BlogGallery({ posts }) {
               >
                 <div className='haru-gallery-media'>
                   <GalleryImage src={post.galleryImage} icon={post.pageIcon} />
-                  {Number.isInteger(post.ext?.galleryImageCount) && post.ext.galleryImageCount > 1 && (
-                    <span className='haru-gallery-count' aria-label={`共 ${post.ext.galleryImageCount} 张图片`}>
-                      {post.ext.galleryImageCount}
-                    </span>
-                  )}
+                  {Number.isInteger(post.ext?.galleryImageCount) &&
+                    post.ext.galleryImageCount > 1 && (
+                      <span
+                        className='haru-gallery-count'
+                        aria-label={`共 ${post.ext.galleryImageCount} 张图片`}
+                      >
+                        {post.ext.galleryImageCount}
+                      </span>
+                    )}
                 </div>
                 <div className='haru-gallery-copy'>
-                  <p className='title font-bold'>
-                    <time dateTime={post.date?.start_date || undefined}>
-                      {post.publishDay || post.date?.start_date || '日期未定'}
-                    </time>
-                  </p>
+                  <p className='title font-bold'>{post.title || '無題'}</p>
                   <p className='description haru-gallery-summary'>
-                    {post.summary || '暂无简介'}
+                    {post.summary || ''}
                   </p>
                 </div>
               </SmartLink>

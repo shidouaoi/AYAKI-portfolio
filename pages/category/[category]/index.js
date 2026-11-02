@@ -48,7 +48,7 @@ export async function getStaticProps({ params: { category }, locale }) {
     )
   }
 
-  if (props.galleryMode) addGalleryImages(props)
+  if (props.galleryMode) await addGalleryImages(props)
   delete props.allPages
 
   props = { ...props, category }

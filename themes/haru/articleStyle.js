@@ -38,6 +38,11 @@ export function ArticleStyle() {
         :is(.haru-archive-month, .haru-taxonomy-item) {
         color: #393534;
       }
+      @media (max-width: 767px) {
+        #theme-haru.haru-article-shell .haru-gallery-grid {
+          column-count: 1;
+        }
+      }
       @media (max-width: 480px) {
         #theme-haru.haru-article-shell #posts-wrapper.card-list {
           grid-template-columns: minmax(0, 1fr);
