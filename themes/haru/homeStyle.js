@@ -35,7 +35,7 @@ export function HomeStyle() {
         #theme-haru .text-gray-500,
         #theme-haru .haru-pagination,
         #theme-haru .description {
-          color: rgb(85 81 79);
+          color: #565250;
         }
         #theme-haru hr {
           border-color: #e3d7d2 !important;

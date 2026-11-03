@@ -64,7 +64,7 @@ export default function PurchaseCalloutStyle({ post }) {
         pointer-events: none;
       }
       ${selector} > :is(.notion-page-icon, .notion-page-icon-hero, .notion-page-icon-inline, .notion-page-icon-image, .notion-page-icon-span) { display: none !important; }
-      ${selector} > .notion-callout-text { padding: 0 !important; width: 100%; min-width: 0; }
+      ${selector} > .notion-callout-text { padding: 8px 0 0 !important; width: 100%; min-width: 0; }
       ${headingId ? selector + ' > .notion-callout-text > .notion-block-' + headingId : selector + ' > .notion-callout-text'} {
         ${headingId ? 'display:none !important;' : 'font-size:0;'}
       }

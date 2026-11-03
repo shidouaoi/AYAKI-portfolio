@@ -58,7 +58,7 @@ export function ArticleStyle() {
       }
       #theme-haru.haru-article-shell .haru-gallery-card .description,
       #theme-haru.haru-article-shell .haru-gallery-card:hover .description {
-        color: rgb(85 81 79) !important;
+        color: #565250 !important;
       }
       #theme-haru.haru-article-shell .haru-gallery-layout {
         width: 100%;
