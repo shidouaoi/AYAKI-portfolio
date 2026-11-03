@@ -92,9 +92,32 @@ export function ArticleStyle() {
         overflow-y: auto;
         scrollbar-width: thin;
       }
+      .haru-article-main #article-wrapper {
+        margin-bottom: 32px;
+      }
       .haru-title-category {
-        margin: -12px 0 24px;
-        gap: 6px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 5px 12px;
+        margin-bottom: 10px;
+        border-radius: 999px;
+        background-color: #f5d3cf;
+      }
+      #theme-haru.haru-article-shell
+        :is(.notion-bookmark, #posts-wrapper .card) {
+        border-color: #e3d7d2 !important;
+        box-shadow: 4.5px 5.4px 0 #e3d7d2 !important;
+      }
+      #theme-haru.haru-article-shell
+        :is(.notion-bookmark, #posts-wrapper .card):hover {
+        border-color: var(--haru-home-accent) !important;
+        transform: translate(1.8px, 1.8px);
+        box-shadow: none !important;
+      }
+      #theme-haru.haru-article-shell .notion-bookmark:hover {
+        background-color: #fff !important;
       }
       .haru-mobile-article-divider {
         display: none;

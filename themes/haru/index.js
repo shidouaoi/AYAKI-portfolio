@@ -221,13 +221,14 @@ const LayoutSlug = props => {
       {!lock && (
         <div id='container'>
           {/* title */}
-          <h1 className='haru-page-title dark:text-gray-300'>{post?.title}</h1>
           {post?.category && (
-            <div className='haru-title-category post-footer-category inline-flex items-center'>
+            <div className='haru-title-category'>
               <i className='fa-solid fa-book' />
               <CategoryItem category={post.category} noHover />
             </div>
           )}
+
+          <h1 className='haru-page-title dark:text-gray-300'>{post?.title}</h1>
 
           {/* Notion文章主体 */}
           {post && (
@@ -240,7 +241,6 @@ const LayoutSlug = props => {
               {/* 分享 */}
               {/* <ShareBar post={post} /> */}
               {/* 文章分类和标签信息 */}
-              {}
               {post.type === 'Post' && (
                 <>
                   <div className='post-footer-meta text-sm text-gray-500 dark:text-gray-400 flex flex-wrap items-center gap-x-4 gap-y-2'>

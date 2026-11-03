@@ -659,6 +659,29 @@ export function HomeStyle() {
             align-self: center;
           }
         }
+        .haru-footer-credits,
+        .haru-footer-stats {
+          display: contents;
+        }
+        @media (max-width: 640px) {
+          #theme-haru .haru-home-footer {
+            flex-direction: column;
+            gap: 8px;
+          }
+          .haru-home-footer > .haru-home-footer-divider {
+            display: none;
+          }
+          .haru-footer-credits,
+          .haru-footer-stats {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+          }
+          .haru-footer-credits .haru-home-footer-divider {
+            display: inline;
+          }
+        }
         #theme-haru .haru-home-footer {
           font-size: 12px;
         }

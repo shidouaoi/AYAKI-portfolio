@@ -221,28 +221,29 @@ export function HomeFooter({ NOTION_CONFIG, siteInfo }) {
         {String(since) === String(year) ? year : since + '–' + year}
       </span>
       <span className='haru-home-footer-divider'>/</span>
-      <span>
-        Powered By{' '}
-        <a href='https://github.com/notionnext-org/NotionNext'>
-          NotionNext {siteConfig('VERSION')}
-        </a>
-      </span>
+      <div className='haru-footer-credits'>
+        <span>
+          Powered By{' '}
+          <a href='https://github.com/notionnext-org/NotionNext'>
+            NotionNext {siteConfig('VERSION')}
+          </a>
+        </span>
+        <span className='haru-home-footer-divider'>/</span>
+        <span>
+          Theme By <a href='https://cat-fish.net'>猫魚</a>
+        </span>
+      </div>
       <span className='haru-home-footer-divider'>/</span>
-      <span>
-        Theme By{' '}
-        <a href='https://cat-fish.net'>
-          猫魚
-        </a>
-      </span>
-      <span className='haru-home-footer-divider'>/</span>
-      <span className='busuanzi_container_site_pv'>
-        <Fa name='fa-solid fa-glasses' />{' '}
-        <span className='busuanzi_value_site_pv'>—</span>
-      </span>
-      <span className='busuanzi_container_site_uv'>
-        <Fa name='fa-solid fa-paw' />{' '}
-        <span className='busuanzi_value_site_uv'>—</span>
-      </span>
+      <div className='haru-footer-stats'>
+        <span className='busuanzi_container_site_pv'>
+          <Fa name='fa-solid fa-glasses' />{' '}
+          <span className='busuanzi_value_site_pv'>—</span>
+        </span>
+        <span className='busuanzi_container_site_uv'>
+          <Fa name='fa-solid fa-paw' />{' '}
+          <span className='busuanzi_value_site_uv'>—</span>
+        </span>
+      </div>
     </footer>
   )
 }
