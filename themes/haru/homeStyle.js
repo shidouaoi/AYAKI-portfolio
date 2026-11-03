@@ -32,6 +32,20 @@ export function HomeStyle() {
           background: #fee8e4 url('/haru/bg.webp') center top / 200% auto
             repeat-y;
         }
+        #theme-haru .haru-home-works .haru-topic-markdown-link {
+          text-decoration: none;
+          border-bottom: none;
+          box-shadow: none;
+          background-image: linear-gradient(
+            transparent calc(100% - 8px),
+            #fff 3px
+          );
+          background-repeat: no-repeat;
+        }
+        #theme-haru .haru-home-works .haru-topic-markdown-link:hover,
+        #theme-haru .haru-home-works .haru-topic-markdown-link:focus-visible {
+          background-color: #fff;
+        }
         #theme-haru .text-gray-500,
         #theme-haru .haru-pagination,
         #theme-haru .description {

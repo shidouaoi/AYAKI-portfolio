@@ -1,3 +1,4 @@
+import { Lexer } from 'marked'
 import { useEffect, useRef, useState } from 'react'
 import { JA } from '../labels'
 /* eslint-disable @next/next/no-img-element */
@@ -35,6 +36,108 @@ function PostIcon({ value }) {
     </span>
   )
 }
+function renderTopicMarkdown(tokens) {
+  return tokens.map((token, index) => {
+    const content = token.tokens
+      ? renderTopicMarkdown(token.tokens)
+      : token.text
+    switch (token.type) {
+      case 'link': {
+        const href = token.href.trim()
+        const scheme = href.match(/^([a-z][a-z0-9+.-]*):/i)?.[1]?.toLowerCase()
+        return scheme &&
+          !['http', 'https', 'mailto', 'tel'].includes(scheme) ? (
+          <span key={index}>{content}</span>
+        ) : (
+          <a
+            key={index}
+            className='haru-topic-markdown-link'
+            href={href}
+            title={token.title || undefined}
+          >
+            {content}
+          </a>
+        )
+      }
+      case 'strong':
+        return <strong key={index}>{content}</strong>
+      case 'em':
+        return <em key={index}>{content}</em>
+      case 'del':
+        return <del key={index}>{content}</del>
+      case 'codespan':
+        return <code key={index}>{token.text}</code>
+      case 'code':
+        return (
+          <pre key={index}>
+            <code>{token.text}</code>
+          </pre>
+        )
+      case 'br':
+        return <br key={index} />
+      case 'hr':
+        return <hr key={index} />
+      case 'paragraph':
+        return <p key={index}>{content}</p>
+      case 'heading':
+        return (
+          <strong key={index} className='block'>
+            {content}
+          </strong>
+        )
+      case 'blockquote':
+        return <blockquote key={index}>{content}</blockquote>
+      case 'list': {
+        const List = token.ordered ? 'ol' : 'ul'
+        return (
+          <List
+            key={index}
+            start={token.ordered ? token.start : undefined}
+            className={token.ordered ? 'list-decimal pl-5' : 'list-disc pl-5'}
+          >
+            {token.items.map((item, itemIndex) => (
+              <li key={itemIndex}>{renderTopicMarkdown(item.tokens)}</li>
+            ))}
+          </List>
+        )
+      }
+      case 'image':
+        return token.text
+      case 'space':
+        return null
+      default:
+        return content
+    }
+  })
+}
+
+function TopicTitle({ title, href }) {
+  const tokens = Lexer.lexInline(title || '', { gfm: true })
+  const hasLink = nodes =>
+    nodes.some(
+      token => token.type === 'link' || (token.tokens && hasLink(token.tokens))
+    )
+  const content = (
+    <>
+      <Fa name='fa-solid fa-book' /> {renderTopicMarkdown(tokens)}
+    </>
+  )
+  return (
+    <h3>
+      {hasLink(tokens) ? content : <SmartLink href={href}>{content}</SmartLink>}
+    </h3>
+  )
+}
+
+function TopicText({ className, text, fallback }) {
+  if (!text) return <p className={className}>{fallback}</p>
+  return (
+    <div className={className}>
+      {renderTopicMarkdown(Lexer.lex(text, { gfm: true, breaks: true }))}
+    </div>
+  )
+}
+
 function PostCard({ post }) {
   return (
     <SmartLink href={url(post)} className='haru-home-post-card'>
@@ -218,8 +321,8 @@ export function HomeFooter({ NOTION_CONFIG, siteInfo }) {
     <footer className='haru-home-footer'>
       <span>
         <a href={siteConfig('LINK', '/', NOTION_CONFIG)}>{author}</a> ©{' '}
-        {String(since) === String(year) ? year : since + '–' + year}
-        {' '}All rights reserved.
+        {String(since) === String(year) ? year : since + '–' + year} All rights
+        reserved.
       </span>
       <span className='haru-home-footer-divider'>/</span>
       <div className='haru-footer-credits'>
@@ -246,9 +349,7 @@ export function HomeFooter({ NOTION_CONFIG, siteInfo }) {
         </span>
       </div>
       <div className='haru-footer-divider'>
-        <span>
-          Reproducing all or any part of the contents is prohibited.
-        </span>
+        <span>Reproducing all or any part of the contents is prohibited.</span>
       </div>
     </footer>
   )
@@ -316,21 +417,23 @@ export default function HaruHome(props) {
                   )}
                 </SmartLink>
                 <div className='haru-home-topic-content'>
-                  <h3>
-                    <SmartLink
-                      href={
-                        topic.href ||
-                        '/category/' + encodeURIComponent(topic.category)
-                      }
-                    >
-                      <Fa name='fa-solid fa-book' /> {topic.title}
-                    </SmartLink>
-                  </h3>
-                  <p className='haru-home-topic-description'>
-                    {topic.description || items[0]?.summary}
-                  </p>
+                  <TopicTitle
+                    title={topic.title}
+                    href={
+                      topic.href ||
+                      '/category/' + encodeURIComponent(topic.category)
+                    }
+                  />
+                  <TopicText
+                    className='haru-home-topic-description'
+                    text={topic.description}
+                    fallback={items[0]?.summary}
+                  />
                   {topic.note && (
-                    <p className='haru-home-topic-note'>{topic.note}</p>
+                    <TopicText
+                      className='haru-home-topic-note'
+                      text={topic.note}
+                    />
                   )}
                   <div className='haru-home-post-grid'>
                     {items.map(post => (
