@@ -61,6 +61,78 @@ export const useNavGlobal = () => useContext(ThemeGlobalNav)
 const LayoutBase = props => {
   const { children, post, allNavPages, categoryOptions } = props
   const router = useRouter()
+  useEffect(() => {
+    const mobile = window.matchMedia('(max-width: 767px) and (pointer: coarse)')
+    let start = null
+
+    function onStart(event) {
+      start = null
+      if (!mobile.matches || event.touches.length !== 1) return
+      if (
+        event.target.closest?.(
+          'input, textarea, select, [contenteditable], iframe'
+        )
+      )
+        return
+      const touch = event.touches[0]
+      // Leave the outermost edge available for the browser's native gesture.
+      if (touch.clientX < 20 || touch.clientX > 48) return
+      for (
+        let node = event.target;
+        node instanceof HTMLElement;
+        node = node.parentElement
+      ) {
+        if (
+          node.scrollWidth > node.clientWidth &&
+          /auto|scroll/.test(getComputedStyle(node).overflowX)
+        )
+          return
+      }
+      start = { x: touch.clientX, y: touch.clientY, time: Date.now() }
+    }
+
+    function onMove(event) {
+      if (!start) return
+      if (
+        event.touches.length !== 1 ||
+        Math.abs(event.touches[0].clientY - start.y) > 35
+      )
+        start = null
+    }
+
+    function onEnd(event) {
+      const origin = start
+      start = null
+      if (!origin || event.touches.length || Date.now() - origin.time > 700)
+        return
+      const touch = event.changedTouches[0]
+      if (
+        touch.clientX - origin.x >= 90 &&
+        Math.abs(touch.clientY - origin.y) <= 35
+      ) {
+        window.history.back()
+      }
+    }
+
+    function onCancel() {
+      start = null
+    }
+
+    const listeners = {
+      touchstart: onStart,
+      touchmove: onMove,
+      touchend: onEnd,
+      touchcancel: onCancel
+    }
+    for (const [name, handler] of Object.entries(listeners)) {
+      window.addEventListener(name, handler, { passive: true })
+    }
+    return () => {
+      for (const [name, handler] of Object.entries(listeners)) {
+        window.removeEventListener(name, handler)
+      }
+    }
+  }, [router.asPath])
   const [tocVisible, changeTocVisible] = useState(false)
   const [pageNavVisible, changePageNavVisible] = useState(false)
   const [filteredNavPages, setFilteredNavPages] = useState(allNavPages)
