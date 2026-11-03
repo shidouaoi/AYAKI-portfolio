@@ -207,6 +207,9 @@ const SEO = props => {
       <meta property='og:title' content={title} />
       <meta property='og:description' content={description} />
       <meta property='og:url' content={url} />
+      {router.pathname === '/' && (
+        <link rel='me' href='https://wxw.ooo/@shidouaoi' />
+      )}
       <meta property='og:image' content={ogImage} />
       <meta property='og:image:width' content='1200' />
       <meta property='og:image:height' content='630' />
