@@ -245,6 +245,11 @@ export function HomeFooter({ NOTION_CONFIG, siteInfo }) {
           <span className='busuanzi_value_site_uv'>—</span>
         </span>
       </div>
+      <div className='haru-footer-divider'>
+        <span>
+          Reproducing all or any part of the contents is prohibited.
+        </span>
+      </div>
     </footer>
   )
 }

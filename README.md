@@ -1,6 +1,6 @@
 # AYAKI Portfolio · Theme "Haru"
 
-![AYAKI Portfolio Banner](https://ayaki-portfolio-eight.vercel.app/og.jpg)
+![AYAKI Portfolio Banner](https://ayaki.cat-fish.net/og.jpg)
 
 基于 [NotionNext](https://github.com/notionnext-org/NotionNext) 和 [猫尾巴纸箱？](https://danbouru.cat-fish.net/) 改造的个人作品集站点。
 由[猫鱼](https://cat-fish.net)制作主题及维护。

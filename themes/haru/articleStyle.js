@@ -92,10 +92,29 @@ export function ArticleStyle() {
         overflow-y: auto;
         scrollbar-width: thin;
       }
+      @media (min-width: 641px) {
+        .haru-article-sidebar {
+          scrollbar-color: transparent transparent;
+        }
+        .haru-article-sidebar.is-scrolling {
+          scrollbar-color: #e3d7d2 transparent;
+        }
+        .haru-article-sidebar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .haru-article-sidebar::-webkit-scrollbar-thumb {
+          background: transparent;
+          border-radius: 6px;
+        }
+        .haru-article-sidebar.is-scrolling::-webkit-scrollbar-thumb {
+          background: #e3d7d2;
+        }
+      }
       .haru-article-main #article-wrapper {
         margin-bottom: 32px;
       }
-      #theme-haru.haru-article-shell .haru-page-title:has(+ .haru-title-category) {
+      #theme-haru.haru-article-shell
+        .haru-page-title:has(+ .haru-title-category) {
         margin-bottom: 8px;
       }
       .haru-title-category {

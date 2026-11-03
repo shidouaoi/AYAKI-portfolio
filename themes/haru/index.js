@@ -76,7 +76,7 @@ const LayoutBase = props => {
         return
       const touch = event.touches[0]
       // Leave the outermost edge available for the browser's native gesture.
-      if (touch.clientX < 20 || touch.clientX > 48) return
+      if (touch.clientX < 20) return
       for (
         let node = event.target;
         node instanceof HTMLElement;

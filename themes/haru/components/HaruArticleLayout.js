@@ -1,6 +1,6 @@
 import { JA } from '../labels'
 /* eslint-disable @next/next/no-img-element */
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import TagItemMini from './TagItemMini'
 import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
@@ -68,6 +68,19 @@ function SidebarSection({ title, icon, children }) {
   )
 }
 export default function HaruArticleLayout(props) {
+  const [sidebarScrolling, setSidebarScrolling] = useState(false)
+  const sidebarScrollTimer = useRef()
+  useEffect(() => () => clearTimeout(sidebarScrollTimer.current), [])
+
+  function onSidebarScroll() {
+    setSidebarScrolling(true)
+    clearTimeout(sidebarScrollTimer.current)
+    sidebarScrollTimer.current = setTimeout(
+      () => setSidebarScrolling(false),
+      800
+    )
+  }
+
   const {
     children,
     siteInfo,
@@ -88,7 +101,13 @@ export default function HaruArticleLayout(props) {
       <ArticleStyle />
       <div className='haru-article-layout'>
         <main className='haru-article-main'>{children}</main>
-        <aside className='haru-article-sidebar' aria-label='博客导航'>
+        <aside
+          className={
+            'haru-article-sidebar' + (sidebarScrolling ? ' is-scrolling' : '')
+          }
+          onScroll={onSidebarScroll}
+          aria-label='博客导航'
+        >
           <div className='haru-article-profile'>
             <SmartLink
               href='/'
