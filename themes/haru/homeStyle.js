@@ -14,15 +14,23 @@ export function HomeStyle() {
           --haru-home-accent: #f57b66;
           --haru-accent: #f57b66;
           color: #393534;
-          background: #fee8e4 url('/haru/bg.webp') center top / 200% auto
-            repeat-y;
-          background-attachment: fixed;
+          isolation: isolate;
+          background-color: #fee8e4;
           min-height: 100vh;
           font-size: 14px;
           font-family:
             'Noto Sans', 'Hiragino Maru Gothic Pro', 'BIZ UDGothic', Roboto,
             HelveticaNeue, Arial, sans-serif;
           font-weight: 400;
+        }
+        #theme-haru.haru-home-shell::before {
+          content: '';
+          position: fixed;
+          inset: 0;
+          z-index: -1;
+          pointer-events: none;
+          background: #fee8e4 url('/haru/bg.webp') center top / 200% auto
+            repeat-y;
         }
         #theme-haru .text-gray-500,
         #theme-haru .haru-pagination,
