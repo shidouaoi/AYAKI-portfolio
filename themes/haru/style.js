@@ -874,6 +874,14 @@ const Style = () => {
         border: 0;
     }
     #theme-haru .haru-pagination-next { margin-left: auto; }
+    #theme-haru .haru-pagination-numbered {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        gap: 8px;
+    }
+    #theme-haru .haru-pagination-numbered > [rel="prev"] { grid-column: 1; grid-row: 1; }
+    #theme-haru .haru-pagination-count { grid-column: 2; grid-row: 1; }
+    #theme-haru .haru-pagination-numbered > [rel="next"] { grid-column: 3; grid-row: 1; }
     #theme-haru .haru-pagination-icon {
         display: inline-flex;
         align-items: center;

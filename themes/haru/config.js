@@ -5,6 +5,7 @@ const CONFIG = {
   HARU_HOME_HIDDEN_CATEGORIES: [], // 可选：额外仅首页隐藏的分类；图库分类自动隐藏
   NAV_COLOR_BG: '#fbfbfb',
   NAV_COLOR_TEXT: '#8c8c8c',
+  NAV_COLOR_TEXT_SECONDARY: '#918784',
   NAV_COLOR_TEXT_HOVER: '#000000',
 
   NAV_INDEX_PAGE: '', // 文档首页显示的文章，请确此路径包含在您的notion数据库中

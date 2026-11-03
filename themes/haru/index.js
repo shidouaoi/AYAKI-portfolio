@@ -180,8 +180,9 @@ const GalleryLayout = ({ posts, postCount, page, pageSize, children }) => (
   <div className='haru-gallery-layout'>
     {children}
     <BlogGallery posts={posts} />
-    {postCount > pageSize && (
+    {postCount > 0 && (
       <PaginationSimple
+        showPageCount
         page={page}
         totalPage={Math.ceil(postCount / pageSize)}
       />
@@ -361,19 +362,23 @@ const LayoutSlug = props => {
               {post?.type === 'Post' && (
                 <nav className='haru-article-around' aria-label='前後の記事'>
                   {prev && (
-                    <SmartLink href={prev.href || '/' + prev.slug}>
+                    <SmartLink href={prev.href || '/' + prev.slug} rel='prev'>
                       <i
-                        className='fa-solid fa-angles-left'
+                        className='fa-solid fa-circle-chevron-left'
                         aria-hidden='true'
                       />
-                      <span>{prev.title}</span>
+                      <span className='haru-article-around-copy'>
+                        <span>{prev.title}</span>
+                      </span>
                     </SmartLink>
                   )}
                   {next && (
-                    <SmartLink href={next.href || '/' + next.slug}>
-                      <span>{next.title}</span>
+                    <SmartLink href={next.href || '/' + next.slug} rel='next'>
+                      <span className='haru-article-around-copy'>
+                        <span>{next.title}</span>
+                      </span>
                       <i
-                        className='fa-solid fa-angles-right'
+                        className='fa-solid fa-circle-chevron-right'
                         aria-hidden='true'
                       />
                     </SmartLink>

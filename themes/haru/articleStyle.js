@@ -125,7 +125,7 @@ export function ArticleStyle() {
         padding: 5px 12px;
         margin: 0 0 16px;
         border-radius: 999px;
-        background-color: #fed1cf;
+        background-color: #ffffff;
       }
       #theme-haru.haru-article-shell
         :is(.notion-bookmark, #posts-wrapper .card) {
@@ -156,8 +156,19 @@ export function ArticleStyle() {
         gap: 8px;
         max-width: 48%;
       }
-      .haru-article-around a:last-child {
+      .haru-article-around [rel='next'] {
         margin-left: auto;
+        text-align: right;
+      }
+      .haru-article-around i {
+        flex-shrink: 0;
+      }
+      .haru-article-around-copy {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        overflow-wrap: anywhere;
+        gap: 3px;
       }
       @media (max-width: 640px) {
         .haru-mobile-article-divider {

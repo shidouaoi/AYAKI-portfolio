@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
  * @returns {JSX.Element}
  * @constructor
  */
-const PaginationSimple = ({ page = 1, totalPage }) => {
+const PaginationSimple = ({ page = 1, totalPage, showPageCount = false }) => {
   const router = useRouter()
   const currentPage = +page
   const showNext = currentPage < totalPage
@@ -18,7 +18,14 @@ const PaginationSimple = ({ page = 1, totalPage }) => {
     .replace(/\/$/, '')
 
   return (
-    <nav className='haru-pagination' aria-label='ページ送り'>
+    <nav
+      className={
+        showPageCount
+          ? 'haru-pagination haru-pagination-numbered'
+          : 'haru-pagination'
+      }
+      aria-label='ページ送り'
+    >
       {currentPage > 1 && (
         <SmartLink
           href={{
@@ -38,6 +45,14 @@ const PaginationSimple = ({ page = 1, totalPage }) => {
           />
           <span>PREV</span>
         </SmartLink>
+      )}
+      {showPageCount && (
+        <span
+          className='haru-pagination-count'
+          aria-label={`全${totalPage}ページ中${currentPage}ページ`}
+        >
+          {currentPage}/{totalPage}
+        </span>
       )}
       {showNext && (
         <SmartLink
