@@ -219,6 +219,7 @@ export function HomeFooter({ NOTION_CONFIG, siteInfo }) {
       <span>
         <a href={siteConfig('LINK', '/', NOTION_CONFIG)}>{author}</a> ©{' '}
         {String(since) === String(year) ? year : since + '–' + year}
+        {' '}All rights reserved.
       </span>
       <span className='haru-home-footer-divider'>/</span>
       <div className='haru-footer-credits'>
