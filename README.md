@@ -12,5 +12,9 @@
 - SNS图标由[socialLinks.js](themes/haru/socialLinks.js)控制，可自定义
 - 图库模式小升级：取消按月份排列，并修复一个webkit造成的视觉bug
 - 新增内文购物车引导框特殊样式，由Notion的Callout标注区块触发
-    - 触发条件：标注区块里第一行文字是'ご購入はこちら'，并且图标是'shopping cart'
-- 凑合在 labels.js 里放了多语言控制……但后来放弃做多语言了。这里只有挣扎的痕迹。
+    - 触发条件：标注区块里第一行文字是`ご購入はこちら`（兼容有无冒号），并且图标是`shopping cart`
+- 凑合在 labels.js 里放了多语言控制……但后来放弃做多语言了
+
+### 挣扎的痕迹
+
+建站笔记放在[这里](https://danbouru.cat-fish.net/memo-others/40db7f05-e444-804f-a309-d70647a9aa51)了。
