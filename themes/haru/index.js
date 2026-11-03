@@ -62,12 +62,12 @@ const LayoutBase = props => {
   const { children, post, allNavPages, categoryOptions } = props
   const router = useRouter()
   useEffect(() => {
-    const mobile = window.matchMedia('(max-width: 767px) and (pointer: coarse)')
+    const touchInput = window.matchMedia('(any-pointer: coarse)')
     let start = null
 
     function onStart(event) {
       start = null
-      if (!mobile.matches || event.touches.length !== 1) return
+      if (!touchInput.matches || event.touches.length !== 1) return
       if (
         event.target.closest?.(
           'input, textarea, select, [contenteditable], iframe'
@@ -218,7 +218,7 @@ const LayoutPostList = props => {
       {currentTag && (
         <h1 className='haru-page-title dark:text-gray-300'>
           <i className='mr-3 fas fa-tag' />
-          Tag：{currentTag}
+          {currentTag}
         </h1>
       )}
 
@@ -226,7 +226,7 @@ const LayoutPostList = props => {
       {currentCategory && (
         <h1 className='haru-page-title dark:text-gray-300'>
           <i className='mr-3 fa-solid fa-book' />
-          Category：{currentCategory}
+          {currentCategory}
         </h1>
       )}
     </>
