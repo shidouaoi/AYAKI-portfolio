@@ -121,7 +121,10 @@ export default function HaruArticleLayout(props) {
             <nav className='haru-article-sidebar-section' aria-label={JA.menu}>
               <MenuLinks items={customMenu || []} />
             </nav>
-            <SidebarSection title={JA.recent} icon='fa-solid fa-clock'>
+            <SidebarSection
+              title={<SmartLink href='/archive'>{JA.recent}</SmartLink>}
+              icon='fa-solid fa-clock'
+            >
               <ul className='haru-article-recent'>
                 {recent.map(item => (
                   <li key={item.id || item.slug}>
@@ -137,7 +140,10 @@ export default function HaruArticleLayout(props) {
             </SidebarSection>
           </div>
           <div className='haru-sidebar-taxonomies'>
-            <SidebarSection title={JA.categories} icon='fa-solid fa-book'>
+            <SidebarSection
+              title={<SmartLink href='/category'>{JA.categories}</SmartLink>}
+              icon='fa-solid fa-book'
+            >
               <ul className='haru-article-categories'>
                 {(categoryOptions || []).map(item => (
                   <li key={item.name}>
@@ -150,7 +156,10 @@ export default function HaruArticleLayout(props) {
                 ))}
               </ul>
             </SidebarSection>
-            <SidebarSection title={JA.tags} icon='fa-solid fa-tags'>
+            <SidebarSection
+              title={<SmartLink href='/tag'>{JA.tags}</SmartLink>}
+              icon='fa-solid fa-tags'
+            >
               <div className='haru-article-tags'>
                 {(tagOptions || []).map(item => (
                   <TagItemMini key={item.name} tag={item} footerStyle />

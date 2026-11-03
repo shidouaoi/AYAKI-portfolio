@@ -37,9 +37,6 @@ const Comment = dynamic(() => import('@/components/Comment'), { ssr: false })
 const NotionPage = dynamic(() => import('@/components/NotionPage'), {
   ssr: true
 })
-const BlogArchiveItem = dynamic(() => import('./components/BlogArchiveItem'), {
-  ssr: true
-})
 const BlogPostCard = dynamic(() => import('./components/BlogPostCard'), {
   ssr: true
 })
@@ -107,6 +104,19 @@ const LayoutIndex = props => {
  * @returns
  */
 // 分类和标签的文章列表
+const GalleryLayout = ({ posts, postCount, page, pageSize, children }) => (
+  <div className='haru-gallery-layout'>
+    {children}
+    <BlogGallery posts={posts} />
+    {postCount > pageSize && (
+      <PaginationSimple
+        page={page}
+        totalPage={Math.ceil(postCount / pageSize)}
+      />
+    )}
+  </div>
+)
+
 const LayoutPostList = props => {
   const { posts } = props
   const router = useRouter()
@@ -129,49 +139,46 @@ const LayoutPostList = props => {
   const currentTag = tagMatch ? decodePathValue(tagMatch[1]) : ''
   const currentCategory = categoryMatch ? decodePathValue(categoryMatch[1]) : ''
 
-  return (
+  const title = (
     <>
-      <div
-        className={`w-full max-w-7xl justify-center mt-12 ${props.galleryMode ? 'mx-0' : 'mx-auto'}`}
-      >
-        {/* Tag 文章结果标题 */}
-        {currentTag && (
-          <h1 className='haru-page-title dark:text-gray-300'>
-            <i className='mr-3 fas fa-tag' />
-            Tag：{currentTag}
-          </h1>
-        )}
+      {/* Tag 文章结果标题 */}
+      {currentTag && (
+        <h1 className='haru-page-title dark:text-gray-300'>
+          <i className='mr-3 fas fa-tag' />
+          Tag：{currentTag}
+        </h1>
+      )}
 
-        {/* Category 文章结果标题 */}
-        {currentCategory && (
-          <h1 className='haru-page-title dark:text-gray-300'>
-            <i className='mr-3 fa-solid fa-book' />
-            Category：{currentCategory}
-          </h1>
-        )}
-
-        {props.galleryMode ? (
-          <div className='haru-gallery-layout'>
-            <BlogGallery posts={posts} />
-            {props.postCount > GALLERY_PAGE_SIZE && (
-              <PaginationSimple
-                page={props.page || 1}
-                totalPage={Math.ceil(props.postCount / GALLERY_PAGE_SIZE)}
-              />
-            )}
-          </div>
-        ) : (
-          <div
-            id='posts-wrapper'
-            className='card-list grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'
-          >
-            {posts?.map(post => (
-              <BlogPostCard key={post.id} post={post} className='card' />
-            ))}
-          </div>
-        )}
-      </div>
+      {/* Category 文章结果标题 */}
+      {currentCategory && (
+        <h1 className='haru-page-title dark:text-gray-300'>
+          <i className='mr-3 fa-solid fa-book' />
+          Category：{currentCategory}
+        </h1>
+      )}
     </>
+  )
+
+  if (props.galleryMode) {
+    return (
+      <GalleryLayout {...props} pageSize={GALLERY_PAGE_SIZE}>
+        {title}
+      </GalleryLayout>
+    )
+  }
+
+  return (
+    <div className='w-full max-w-7xl justify-center mt-12 mx-auto'>
+      {title}
+      <div
+        id='posts-wrapper'
+        className='card-list grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'
+      >
+        {posts?.map(post => (
+          <BlogPostCard key={post.id} post={post} className='card' />
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -334,28 +341,14 @@ const LayoutSearch = props => {
  * @param {*} props
  * @returns
  */
-const LayoutArchive = props => {
-  const { archivePosts } = props
-
-  return (
-    <div className='w-full'>
-      <h1 className='haru-page-title dark:text-gray-300'>
-        <i className='mr-3 fas fa-clock-rotate-left' />
-        Archive
-      </h1>
-
-      <div className='pb-20'>
-        {Object.keys(archivePosts).map(archiveTitle => (
-          <BlogArchiveItem
-            key={archiveTitle}
-            archiveTitle={archiveTitle}
-            archivePosts={archivePosts}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
+const LayoutArchive = props => (
+  <GalleryLayout {...props} pageSize={GALLERY_PAGE_SIZE}>
+    <h1 className='haru-page-title dark:text-gray-300'>
+      <i className='mr-3 fas fa-clock-rotate-left' aria-hidden='true' />
+      最近の投稿
+    </h1>
+  </GalleryLayout>
+)
 
 /**
  * 404

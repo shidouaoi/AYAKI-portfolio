@@ -1,5 +1,4 @@
 import SmartLink from '@/components/SmartLink'
-import { groupGalleryPosts } from '../lib/gallery'
 import { useState } from 'react'
 import NotionIcon from './NotionIcon'
 
@@ -37,53 +36,45 @@ function GalleryImage({ src, icon }) {
   )
 }
 
-export default function BlogGallery({ posts }) {
+export default function BlogGallery({ posts: items = [] }) {
   return (
     <div id='posts-wrapper' className='haru-gallery'>
-      {Object.entries(groupGalleryPosts(posts)).map(([month, items]) => (
-        <section key={month} aria-label={month}>
-          <h2 className='haru-archive-month dark:text-gray-300'>{month}</h2>
-          <div className='haru-gallery-grid'>
-            {[
-              items.slice(0, Math.ceil(items.length / 2)),
-              items.slice(Math.ceil(items.length / 2))
-            ].map((column, index) => (
-              <div className='haru-gallery-column' key={index}>
-                {column.map(post => (
-                  <SmartLink
-                    key={post.id}
-                    href={post.href}
-                    className='card haru-gallery-card'
-                    aria-label={post.title}
-                  >
-                    <div className='haru-gallery-media'>
-                      <GalleryImage
-                        src={post.galleryImage}
-                        icon={post.pageIcon}
-                      />
-                      {Number.isInteger(post.ext?.galleryImageCount) &&
-                        post.ext.galleryImageCount > 1 && (
-                          <span
-                            className='haru-gallery-count'
-                            aria-label={`共 ${post.ext.galleryImageCount} 张图片`}
-                          >
-                            {post.ext.galleryImageCount}
-                          </span>
-                        )}
-                    </div>
-                    <div className='haru-gallery-copy'>
-                      <p className='title font-bold'>{post.title || '無題'}</p>
-                      <p className='description haru-gallery-summary'>
-                        {post.summary || ''}
-                      </p>
-                    </div>
-                  </SmartLink>
-                ))}
-              </div>
+      <div className='haru-gallery-grid'>
+        {[
+          items.slice(0, Math.ceil(items.length / 2)),
+          items.slice(Math.ceil(items.length / 2))
+        ].map((column, index) => (
+          <div className='haru-gallery-column' key={index}>
+            {column.map(post => (
+              <SmartLink
+                key={post.id}
+                href={post.href}
+                className='card haru-gallery-card'
+                aria-label={post.title}
+              >
+                <div className='haru-gallery-media'>
+                  <GalleryImage src={post.galleryImage} icon={post.pageIcon} />
+                  {Number.isInteger(post.ext?.galleryImageCount) &&
+                    post.ext.galleryImageCount > 1 && (
+                      <span
+                        className='haru-gallery-count'
+                        aria-label={`共 ${post.ext.galleryImageCount} 张图片`}
+                      >
+                        {post.ext.galleryImageCount}
+                      </span>
+                    )}
+                </div>
+                <div className='haru-gallery-copy'>
+                  <p className='title font-bold'>{post.title || '無題'}</p>
+                  <p className='description haru-gallery-summary'>
+                    {post.summary || ''}
+                  </p>
+                </div>
+              </SmartLink>
             ))}
           </div>
-        </section>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }

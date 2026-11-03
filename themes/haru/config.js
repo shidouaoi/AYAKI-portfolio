@@ -1,4 +1,5 @@
 const CONFIG = {
+  HARU_GALLERY_ALL: true, // 关闭后使用分类和标签名单启用图库
   HARU_GALLERY_CATEGORIES: [],
   HARU_GALLERY_TAGS: [],
   HARU_HOME_HIDDEN_CATEGORIES: [], // 可选：额外仅首页隐藏的分类；图库分类自动隐藏
@@ -12,8 +13,7 @@ const CONFIG = {
 
   NAV_SHOW_TITLE_TEXT: false, // 标题栏显示文本
   NAV_USE_CUSTOM_MENU: true, // 使用自定义菜单（可支持子菜单，支持自定义分类图标），若为true则显示所有的category分类
-  HARU_MENU_COLLAPSED:
-    process.env.NEXT_PUBLIC_HARU_MENU_COLLAPSED || '', //增加菜单折叠功能，默认折叠，传入'false'则不折叠
+  HARU_MENU_COLLAPSED: process.env.NEXT_PUBLIC_HARU_MENU_COLLAPSED || '', //增加菜单折叠功能，默认折叠，传入'false'则不折叠
 
   // 菜单
   NAV_MENU_CATEGORY: true, // 显示分类
