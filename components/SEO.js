@@ -64,6 +64,14 @@ const SEO = props => {
     url = createSiteUrl(url, meta.slug) || url
     image = getAbsoluteImageUrl(meta.image || '/bg_image.jpg', LINK)
   }
+  const homeBanner =
+    router.pathname === '/'
+      ? siteConfig('HOME_BANNER_IMAGE', '', NOTION_CONFIG)
+      : ''
+  const ogImage =
+    typeof homeBanner === 'string' && homeBanner.trim()
+      ? getAbsoluteImageUrl(homeBanner.trim(), LINK) || image
+      : image
   const TITLE = siteConfig('TITLE')
   const title = meta?.title || TITLE
   const description = meta?.description || `${siteInfo?.description}`
@@ -77,8 +85,7 @@ const SEO = props => {
     rssSubPath ? `${LINK}/${rssSubPath}` : LINK,
     'rss/feed.xml'
   )
-  const language =
-    router?.locale || siteConfig('LANG', 'zh-CN', NOTION_CONFIG)
+  const language = router?.locale || siteConfig('LANG', 'zh-CN', NOTION_CONFIG)
   const lang = String(language).replace('-', '_') // Facebook OpenGraph 要 zh_CN 這樣的格式才抓得到語言
   const category = Array.isArray(meta?.category)
     ? meta?.category?.[0]
@@ -143,7 +150,10 @@ const SEO = props => {
         name='viewport'
         content='width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0'
       />
-      <meta name='robots' content='follow, index, max-snippet:-1, max-image-preview:large, max-video-preview:-1' />
+      <meta
+        name='robots'
+        content='follow, index, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
+      />
       <meta charSet='UTF-8' />
       <meta name='format-detection' content='telephone=no' />
       <meta name='mobile-web-app-capable' content='yes' />
@@ -197,7 +207,7 @@ const SEO = props => {
       <meta property='og:title' content={title} />
       <meta property='og:description' content={description} />
       <meta property='og:url' content={url} />
-      <meta property='og:image' content={image} />
+      <meta property='og:image' content={ogImage} />
       <meta property='og:image:width' content='1200' />
       <meta property='og:image:height' content='630' />
       <meta property='og:image:alt' content={title} />
@@ -240,7 +250,10 @@ const SEO = props => {
       {meta?.type === 'Post' && (
         <>
           {meta.publishTime && (
-            <meta property='article:published_time' content={meta.publishTime} />
+            <meta
+              property='article:published_time'
+              content={meta.publishTime}
+            />
           )}
           {meta.modifiedTime && (
             <meta
@@ -506,8 +519,7 @@ const getSEOMeta = (props, router, locale) => {
         publishDay: post?.publishDay,
         lastEditedDay: post?.lastEditedDay,
         publishTime:
-          getIsoTime(post?.publishDate) ||
-          getIsoTime(post?.date?.start_date),
+          getIsoTime(post?.publishDate) || getIsoTime(post?.date?.start_date),
         modifiedTime: getIsoTime(post?.lastEditedTime || post?.lastEditedDate)
       }
   }

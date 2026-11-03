@@ -221,14 +221,13 @@ const LayoutSlug = props => {
       {!lock && (
         <div id='container'>
           {/* title */}
+          <h1 className='haru-page-title dark:text-gray-300'>{post?.title}</h1>
           {post?.category && (
             <div className='haru-title-category'>
               <i className='fa-solid fa-book' />
               <CategoryItem category={post.category} noHover />
             </div>
           )}
-
-          <h1 className='haru-page-title dark:text-gray-300'>{post?.title}</h1>
 
           {/* Notion文章主体 */}
           {post && (

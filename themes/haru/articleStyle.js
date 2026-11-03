@@ -95,15 +95,18 @@ export function ArticleStyle() {
       .haru-article-main #article-wrapper {
         margin-bottom: 32px;
       }
+      #theme-haru.haru-article-shell .haru-page-title:has(+ .haru-title-category) {
+        margin-bottom: 8px;
+      }
       .haru-title-category {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 7px;
         padding: 5px 12px;
-        margin-bottom: 10px;
+        margin: 0 0 16px;
         border-radius: 999px;
-        background-color: #f5d3cf;
+        background-color: #fed1cf;
       }
       #theme-haru.haru-article-shell
         :is(.notion-bookmark, #posts-wrapper .card) {
