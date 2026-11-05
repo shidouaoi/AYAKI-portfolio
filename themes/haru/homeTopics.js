@@ -5,8 +5,8 @@ const HOME_TOPICS = [
   {
     id: 'haru-renzai',
     src: 'haru/haru-cover.jfif',
-    href: '/category/ハル日和',
-    category: 'ハル日和',
+    href: '/category/ハル日和 〜僕たちの家族日記〜',
+    category: 'ハル日和 〜僕たちの家族日記〜',
     title: 'ハル日和 〜僕たちの家族日記〜',
     description:
       '【みんなでいると心ぽかぽか】\nαの直人（なおと）、Ωの和樹（かずき）とその子ども・ハル。\n3人は幸せいっぱい仲良し家族。\nいっぱい笑って、ちょっと悩んで、疲れたら一緒に眠る。\nそんな彼らの愛にあふれた日常をお届けします。',
